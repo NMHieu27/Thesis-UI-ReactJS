@@ -1,0 +1,53 @@
+.home-wrapper {
+}
+// Home Introduce
+.home-wrapper .home-intro {
+    display: flex;
+}
+.home-intro .home-intro-text-wrapper {
+    width: 40%;
+    position: relative;
+}
+.home-intro-text-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    height: 50%;
+}
+.home-intro-text-container .intro-text-title{
+    font-size: 2.5rem;
+    color: var(--main-bg-color);
+    font-weight: bold;
+    opacity: 0;
+    animation: showTop 1s ease-in-out forwards;
+    
+}
+.home-intro-text-container .intro-text-content{
+    font-size: 1.25rem;
+    margin-top: 10px;
+    opacity: 0;
+    animation: showTop 1s ease-in-out forwards;
+}
+.btn-intro-detail-container{
+    text-align: center;
+}
+.btn-intro-detail-container .btn-intro-detail{
+    font-size: 1.1rem;
+    opacity: 0;
+    animation: showTop 1s ease-in-out forwards;
+
+}
+.home-intro .home-intro-image {
+    width: 60%;
+    height: calc(100vh - 75px);
+    opacity: 0;
+    animation: showTop 1s ease-in-out forwards; 
+    animation-delay: 0.2;
+}
+.home-intro .home-intro-image img{
+    width: 100%;
+    height: 100%;
+}
+

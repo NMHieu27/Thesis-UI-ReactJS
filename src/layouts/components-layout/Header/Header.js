@@ -4,6 +4,7 @@ import config from '~/config';
 import MyNavLink from '~/components/MyNavLink/MyNavLink';
 import images from '~/assets/images';
 import { Link } from 'react-router-dom';
+import LanguageToggleButton from '~/components/LanguageToggleButton/LanguageToggleButton';
 function Header() {
     return (
         <>
@@ -34,6 +35,7 @@ function Header() {
                                 <MyNavLink link={'#2'}>Team</MyNavLink>
                                 <MyNavLink link={'#3'}>Contact</MyNavLink>
                                 <MyNavLink link={config.routes.singin}>Sign In</MyNavLink>
+                                <LanguageToggleButton/>
                             </Nav>
                         </Offcanvas.Body>
                     </Navbar.Offcanvas>

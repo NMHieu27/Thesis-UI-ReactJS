@@ -1,5 +1,4 @@
 .default-layout-wrapper{
-    background: beige;
     font-size: 1.1rem !important;
 }
 .header-wrapper{
@@ -8,5 +7,31 @@
     min-height: 100vh;
 }
 .body-wrapper .body-wrapper-content{
-    margin-top: 75px;
+    padding-top: 75px;
+}
+.show-to-top-parallax {
+    opacity: 0;
+}
+.active-parallax .show-to-top-parallax {
+    animation: showTop 1s ease-in-out 1 forwards;
+}
+.delay-02 {
+    animation-delay: 0.2s !important;
+}
+.delay-04 {
+    animation-delay: 0.4s !important;
+}
+.delay-06 {
+    animation-delay: 0.6s !important;
+}
+.delay-08 {
+    animation-delay: 0.8s !important;
+}
+@keyframes showTop {
+    from{
+        opacity: 0;
+    }
+    to{
+        opacity: 1;
+    }
 }
