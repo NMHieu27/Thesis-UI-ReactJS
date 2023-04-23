@@ -1,0 +1,107 @@
+@import 'normalize.css';
+
+:root {
+    --font-family: 'Roboto', sans-serif;
+    --main-bg-color: #0841c3;
+}
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body {
+    font-family: var(--font-family);
+    font-size: 16px;
+    line-height: 1.5;
+    overflow-y: overlay;
+}
+
+// Scrollbar CSS
+html *::-webkit-scrollbar {
+    border-radius: 0;
+    width: 8px;
+}
+
+html *::-webkit-scrollbar-thumb {
+    border-radius: 4px;
+    background-color: rgba(0, 0, 0, 0.15);
+}
+
+html *::-webkit-scrollbar-track {
+    border-radius: 0;
+    background-color: rgba(0, 0, 0, 0);
+}
+
+button,
+input,
+[tabindex] {
+    outline: none;
+    border: none;
+}
+
+a {
+    color: var(--text-color);
+    text-decoration: none;
+}
+
+//btn-default
+.btn-handle {
+    padding: 6px 11px;
+    margin: 0 3px;
+    color: var(--txt-white);
+    border-radius: 5px;
+    box-shadow: var(--box-shadow);
+    transition: all 0.2s ease-in-out;
+}
+
+.btn-handle:hover {
+    filter: brightness(120%);
+}
+
+.btn-handle-danger {
+    background-color: var(--main-color-red);
+}
+
+.btn-handle-success {
+    background-color: var(--main-color-green);
+}
+
+.btn-handle-primary {
+    background-color: var(--main-color-blue);
+}
+
+.btn-handle-warning {
+    background-color: var(--main-color-orange);
+}
+
+//table
+table {
+    width: 100%;
+    min-width: 400px;
+    border-spacing: 0;
+}
+
+thead {
+    background-color: var(--second-bg);
+}
+
+tr {
+    text-align: left;
+}
+
+th,
+td {
+    padding: 15px 10px;
+}
+.text-ellipsis {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 200px;
+    display: block;
+}
+
+tbody > tr:hover {
+    background-color: var(--main-color);
+    color: var(--txt-white);
+}
