@@ -1,7 +1,7 @@
-import config from "~/config"
-import DefaultLayout from "~/layouts/DefaultLayout/DefaultLayout";
-import Signin from "~/pages/Auth/Signin/Signin"
-import Home from "~/pages/Home/Home";
+import config from "src/config"
+import DefaultLayout from "src/layouts/DefaultLayout/DefaultLayout";
+import Signin from "src/pages/Auth/Signin/Signin"
+import Home from "src/pages/Home/Home";
 
 // Public Routes
 const publicRoutes = [

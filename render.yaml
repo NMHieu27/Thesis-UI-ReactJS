@@ -1,2 +1,0 @@
-buildCommand: 'npm install && npm install react-app-rewired --save-dev && npm run build'
-startCommand: 'react-app-rewired start'

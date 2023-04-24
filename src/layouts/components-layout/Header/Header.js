@@ -1,13 +1,13 @@
 import { Button, Container, Dropdown, Modal, Nav, Navbar, Offcanvas } from 'react-bootstrap';
 import './Header.scss';
-import config from '~/config';
-import MyNavLink from '~/components/MyNavLink/MyNavLink';
-import images from '~/assets/images';
 import { Link } from 'react-router-dom';
-import LanguageToggleButton from '~/components/LanguageToggleButton/LanguageToggleButton';
 import { useTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
-import { logout } from '~/redux/actions/authActions';
+import MyNavLink from 'src/components/MyNavLink/MyNavLink';
+import { logout } from 'src/redux/actions/authActions';
+import config from 'src/config/index';
+import images from 'src/assets/images';
+import LanguageToggleButton from 'src/components/LanguageToggleButton/LanguageToggleButton';
 
 function Header({isAuthenticated, user, dispatch}) {
     const { t } = useTranslation();

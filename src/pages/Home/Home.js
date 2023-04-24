@@ -1,4 +1,4 @@
-import Helmet from '~/components/Helmet/Helmet';
+import Helmet from 'src/components/Helmet/Helmet';
 import './Home.scss';
 import { Button } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';

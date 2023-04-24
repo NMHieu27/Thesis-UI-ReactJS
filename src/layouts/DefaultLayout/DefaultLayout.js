@@ -4,7 +4,6 @@ import Footer from '../components-layout/Footer/Footer';
 import './DefaultLayout.scss';
 import { Container } from 'react-bootstrap';
 import { useEffect } from 'react';
-import LanguageToggleButton from '~/components/LanguageToggleButton/LanguageToggleButton';
 function DefaultLayout() {
     useEffect(() => {
         const items = document.querySelectorAll('.item-parallax');

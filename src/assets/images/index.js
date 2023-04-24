@@ -1,5 +1,5 @@
 const images = {
-    logo: require('~/assets/images/logo-removebg.png'),
+    logo: require('src/assets/images/logo-removebg.png'),
 };
 
 export default images;
