@@ -1,20 +1,21 @@
-import { useContext, useEffect, useState } from 'react';
+import {  useEffect, useState } from 'react';
 import './Sigin.scss';
 import Helmet from '~/components/Helmet/Helmet';
-import cookie from 'react-cookies';
 import LoginSVG from '~/assets/svg/illustrations-login/LoginSVG';
 import { Button, Form } from 'react-bootstrap';
 import InputItem from '~/components/Form/InputItem/InputItem';
-import { MyUserContext } from '~/context/MyContext';
-import { Link, Navigate } from 'react-router-dom';
-function Signin() {
+import { Link, useNavigate } from 'react-router-dom';
+import authAPI from '~/api/authAPI/authAPI';
+import { loginSuccess } from '~/redux/actions/authActions';
+import { connect } from 'react-redux';
+import { toast } from 'react-toastify';
+function Signin({ dispatch }) {
     const [loadSVG, setLoadSVG] = useState(false);
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);
     const [isShowPassword, setIsShowPassword] = useState(false);
-    const [err, setErr] = useState();
-    // const [user, dispatch] = useContext(MyUserContext)
+    const nav = useNavigate();
     useEffect(() => {
         const $ = document.querySelector.bind(document);
         const title = $('.title');
@@ -34,37 +35,42 @@ function Signin() {
 
         const process = async () => {
             try {
-                // let res = await API.post(endpoints['login'], {
-                //     "username": username,
-                //     "password": password,
-                //     "client_id": "Vbe8euZZQJoWJ2UzW9wDThg4hJEZHHbhFmnfj7UR",
-                //     "client_secret": "cVm4w4hSdy4MtwbP4KuNgXkGPeQJ9yrQdBvXHGR6b3e97F2bYqQ81XJ49FEufzjcw4SKwpuOZQiCLsNelHY1MkuYTGBRcSqtWmSlebSUk27WfyDskCB2VeCQihnEKdZ2",
-                //     "grant_type": "password"
-                // })
-                // cookie.save('access-token', res.data.access_token)
-                // let user = await authAPI().get(endpoints['current-user'])
-                // cookie.save('current-user', user.data)
-                // dispatch({
-                //     "type": "login",
-                //     "payload": user.data
-                // })
+                const params = {
+                    username: username,
+                    password: password,
+                    client_id: 'CshxXj0PHnLcCkwtGSZWxPJc7G2lEA2iNjE9ISJc',
+                    client_secret:
+                        '5LMYy3tSWofUxcRGj7qNRSgyYe7WZtmXWCMuVtVrYAJRITuA5TqpvRAw7bKpRqK8sRdJEoybnVhjtvt0DiLqSKOusqpffw8xLaYoupGKDIY47nDF0hfc3EB69SVMZbBI',
+                    grant_type: 'password',
+                };
+                let res = await authAPI.signIn(params);
+                localStorage.setItem('access-token', res.data.access_token);
+                console.log(localStorage.getItem('access-token'));
+                if (localStorage.getItem('access-token')) {
+                    let user = await authAPI.currentUser();
+                    localStorage.setItem('current-user', JSON.stringify(user.data));
+
+                    toast.success('Đăng nhập thành công');
+                    dispatch(loginSuccess(user.data));
+                    if (user !== null) {
+                        nav('/');
+                    }
+                }
             } catch (ex) {
                 console.error(ex);
-                setErr('Username hoặc Password không hợp lệ!');
+                toast.error('Username hoặc Password không hợp lệ!');
             } finally {
                 setLoading(false);
             }
         };
 
-        if (username === '' || password === '') setErr('Phải nhập username và password!');
-        else {
+        if (username === '' || password === '') {
+            toast.error('Phải nhập username và password!');
+        } else {
             setLoading(true);
             process();
         }
     };
-
-    // if (user !== null)
-    //     return <Navigate to="/" />
 
     return (
         <Helmet title="Đăng nhập">
@@ -93,7 +99,7 @@ function Signin() {
                         </div>
                     </div>
                     <div className="login-form-container">
-                        <Form onSubmit={login} className="login-form">
+                        <Form onSubmit={login} className="login-form" noValidate={true}>
                             <div className="greeting-container">
                                 <h2>Hey!</h2>
                                 <h1>WELLCOME BACK</h1>
@@ -124,7 +130,7 @@ function Signin() {
                                 <Loading />
                             ) : ( */}
                             <div className="login-form-action">
-                                <Link to={"/ddd"}>Forgot password?</Link>
+                                <Link to={'/ddd'}>Forgot password?</Link>
                                 <Button className="btn-lg btn-login" variant="primary" type="submit">
                                     Sign In
                                 </Button>
@@ -139,4 +145,4 @@ function Signin() {
     );
 }
 
-export default Signin;
+export default connect()(Signin);

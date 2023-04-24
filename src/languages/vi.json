@@ -1,0 +1,17 @@
+{
+    "__comment1__": "NAV BAR",
+    "nav-home":"Trang chủ",
+    "nav-about":"Về chúng tôi",
+    "nav-services":"Dịch vụ",
+    "nav-team":"Đội ngũ",
+    "nav-contact":"Liên hệ",
+    "nav-sign-in":"Đăng nhập",
+    "nav-sign-out":"Đăng xuất",
+
+    "__comment2__": "FOOTER",
+
+    "__comment3__": "HOMPAGE",
+    "homepage-intro-title": "Hệ thống quản lí khóa luận tốt nghiệp",
+    "homepage-intro-content": "Chào mừng bạn đến với trang web quản lí khóa luận tốt nghiệp! Chúng tôi cung cấp một nền tảng trực tuyến hoàn chỉnh để giúp sinh viên, giảng viên và cố vấn khóa luận tốt nghiệp quản lí, theo dõi và đánh giá tiến độ và kết quả của khóa luận tốt nghiệp.",
+    "homepage-intro-detail":"Tìm hiểu thêm →"
+}

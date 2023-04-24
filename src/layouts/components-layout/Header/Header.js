@@ -1,11 +1,19 @@
-import { Button, Container, Nav, Navbar, Offcanvas } from 'react-bootstrap';
+import { Button, Container, Dropdown, Modal, Nav, Navbar, Offcanvas } from 'react-bootstrap';
 import './Header.scss';
 import config from '~/config';
 import MyNavLink from '~/components/MyNavLink/MyNavLink';
 import images from '~/assets/images';
 import { Link } from 'react-router-dom';
 import LanguageToggleButton from '~/components/LanguageToggleButton/LanguageToggleButton';
-function Header() {
+import { useTranslation } from 'react-i18next';
+import { connect } from 'react-redux';
+import { logout } from '~/redux/actions/authActions';
+
+function Header({isAuthenticated, user, dispatch}) {
+    const { t } = useTranslation();
+    const handleSignOut = () =>{
+        dispatch(logout());
+    }
     return (
         <>
             <Navbar bg="light" expand="sm" className="fixed-top">
@@ -20,6 +28,7 @@ function Header() {
                     </Link>
                     <Navbar.Toggle aria-controls="offcanvasNavbar-expand-sm" />
                     <Navbar.Offcanvas
+                        className="row-offcanvas-left"
                         id="offcanvasNavbar-expand-sm"
                         aria-labelledby="offcanvasNavbarLabel-expand-sm"
                         placement="end"
@@ -29,13 +38,37 @@ function Header() {
                         </Offcanvas.Header>
                         <Offcanvas.Body>
                             <Nav className="justify-content-end flex-grow-1 pe-3">
-                                <MyNavLink link={config.routes.home}>Home</MyNavLink>
-                                <MyNavLink link={'/about'}>About</MyNavLink>
-                                <MyNavLink link={'#1'}>Services</MyNavLink>
-                                <MyNavLink link={'#2'}>Team</MyNavLink>
-                                <MyNavLink link={'#3'}>Contact</MyNavLink>
-                                <MyNavLink link={config.routes.singin}>Sign In</MyNavLink>
-                                <LanguageToggleButton/>
+                                <MyNavLink link={config.routes.home}>{t('nav-home')}</MyNavLink>
+                                <MyNavLink link={'/about'}>{t('nav-about')}</MyNavLink>
+                                <MyNavLink link={'#1'}>{t('nav-services')}</MyNavLink>
+                                <MyNavLink link={'#2'}>{t('nav-team')}</MyNavLink>
+                                <MyNavLink link={'#3'}>{t('nav-contact')}</MyNavLink>
+                                {!isAuthenticated && <MyNavLink link={config.routes.singin}>{t('nav-sign-in')}</MyNavLink>}
+                                <LanguageToggleButton />
+                                {/* Message Box */}
+                                {/* <div className="massage-box">
+                                    <button className="btn-massage">
+                                        <i className="fa-regular fa-message"></i>
+                                    </button>
+                                </div> */}
+                                {isAuthenticated && <Dropdown>
+                                    <Dropdown.Toggle id="dropdown-basic" className="nav-avatar">
+                                        <img
+                                            src={user.image}
+                                            width="40"
+                                            height="40"
+                                            className="rounded-circle"
+                                            alt="err"
+                                        />
+                                    </Dropdown.Toggle>
+                                    <Dropdown.Menu>
+                                        <Dropdown.Item href="#/action-1">Hi, {user['first_name']}</Dropdown.Item>
+                                        <Dropdown.Item href="#/action-2">Sửa thông tin</Dropdown.Item>
+                                        <Dropdown.Item href="#/action-2">Đổi mật khẩu</Dropdown.Item>
+                                        <Dropdown.Divider />
+                                        <Dropdown.Item onClick={handleSignOut}>{t('nav-sign-out')}</Dropdown.Item>
+                                    </Dropdown.Menu>
+                                </Dropdown>}
                             </Nav>
                         </Offcanvas.Body>
                     </Navbar.Offcanvas>
@@ -44,5 +77,8 @@ function Header() {
         </>
     );
 }
-
-export default Header;
+const mapStateToProps = (state) => ({
+    isAuthenticated: state.auth.isAuthenticated,
+    user: state.auth.user,
+  });
+export default connect(mapStateToProps)(Header);

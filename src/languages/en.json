@@ -1,0 +1,18 @@
+{
+    "__comment1__": "NAV BAR",
+    "nav-home":"Home",
+    "nav-about":"About",
+    "nav-services":"Services",
+    "nav-team":"Team",
+    "nav-contact":"Contact",
+    "nav-sign-in":"Sign In",
+    "nav-sign-out":"Sign Out",
+
+    "__comment2__": "FOOTER",
+
+
+    "__comment3__": "HOMPAGE",
+    "homepage-intro-title": "The system for managing graduation thesis",
+    "homepage-intro-content": "Welcome to the Graduation Thesis Management website! We provide a comprehensive online platform to assist students, faculty members, and thesis advisors in managing, monitoring, and evaluating the progress and results of graduation theses.",
+    "homepage-intro-detail":"More →"
+}
