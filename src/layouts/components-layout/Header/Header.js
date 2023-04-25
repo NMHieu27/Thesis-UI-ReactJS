@@ -2,14 +2,16 @@ import { Button, Container, Dropdown, Modal, Nav, Navbar, Offcanvas } from 'reac
 import './Header.scss';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { connect } from 'react-redux';
-import MyNavLink from 'src/components/MyNavLink/MyNavLink';
-import { logout } from 'src/redux/actions/authActions';
-import config from 'src/config/index';
-import images from 'src/assets/images';
-import LanguageToggleButton from 'src/components/LanguageToggleButton/LanguageToggleButton';
-
-function Header({isAuthenticated, user, dispatch}) {
+import {useDispatch, useSelector } from 'react-redux';
+import MyNavLink from '~/components/MyNavLink/MyNavLink';
+import config from '~/config';
+import { logout } from '~/redux/actions/authActions';
+import images from '~/assets/images';
+import LanguageToggleButton from '~/components/LanguageToggleButton/LanguageToggleButton';
+function Header() {
+    const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+    const user = useSelector((state) => state.auth.user);
+    const dispatch = useDispatch();
     const { t } = useTranslation();
     const handleSignOut = () =>{
         dispatch(logout());
@@ -77,8 +79,5 @@ function Header({isAuthenticated, user, dispatch}) {
         </>
     );
 }
-const mapStateToProps = (state) => ({
-    isAuthenticated: state.auth.isAuthenticated,
-    user: state.auth.user,
-  });
-export default connect(mapStateToProps)(Header);
+export default Header;
+

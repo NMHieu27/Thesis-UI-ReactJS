@@ -1,15 +1,16 @@
 import {  useEffect, useState } from 'react';
 import './Sigin.scss';
-import Helmet from 'src/components/Helmet/Helmet';
-import LoginSVG from 'src/assets/svg/illustrations-login/LoginSVG';
 import { Button, Form } from 'react-bootstrap';
-import InputItem from 'src/components/Form/InputItem/InputItem';
 import { Link, useNavigate } from 'react-router-dom';
-import authAPI from 'src/api/authAPI/authAPI';
-import { loginSuccess } from 'src/redux/actions/authActions';
-import { connect } from 'react-redux';
 import { toast } from 'react-toastify';
-function Signin({ dispatch }) {
+import Helmet from '~/components/Helmet/Helmet';
+import LoginSVG from '~/assets/svg/illustrations-login/LoginSVG';
+import InputItem from '~/components/Form/InputItem/InputItem';
+import authAPI from '~/api/authAPI/authAPI';
+import { loginSuccess } from '~/redux/actions/authActions';
+import { useDispatch } from 'react-redux';
+function Signin() {
+    const dispatch = useDispatch();
     const [loadSVG, setLoadSVG] = useState(false);
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
@@ -145,4 +146,4 @@ function Signin({ dispatch }) {
     );
 }
 
-export default connect()(Signin);
+export default Signin;
