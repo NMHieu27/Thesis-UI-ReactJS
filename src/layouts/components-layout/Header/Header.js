@@ -1,6 +1,6 @@
 import { Button, Container, Dropdown, Modal, Nav, Navbar, Offcanvas } from 'react-bootstrap';
 import './Header.scss';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import {useDispatch, useSelector } from 'react-redux';
 import MyNavLink from '~/components/MyNavLink/MyNavLink';
@@ -12,9 +12,11 @@ function Header() {
     const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
     const user = useSelector((state) => state.auth.user);
     const dispatch = useDispatch();
+    const nav = useNavigate();
     const { t } = useTranslation();
     const handleSignOut = () =>{
         dispatch(logout());
+        nav(config.routes.singin);
     }
     return (
         <>
