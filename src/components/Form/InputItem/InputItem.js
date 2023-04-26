@@ -1,7 +1,12 @@
 import React from 'react';
 import { Form } from 'react-bootstrap';
 
-const InputItem = React.forwardRef(({ label, type, value, setValue, name, placeholder = '' }, ref) => {
+const InputItem = React.forwardRef(({ label, type, value, setValue, name, placeholder = '', error = null, pattern = null }, ref) => {
+   let isValid = true;
+    if(pattern && value) {
+       isValid = new RegExp(pattern).test(value);
+   }
+
     if (type === 'file')
         return (
             <Form.Group className="mb-3" controlId={name}>
@@ -22,6 +27,7 @@ const InputItem = React.forwardRef(({ label, type, value, setValue, name, placeh
                 onChange={setValue}
                 placeholder={placeholder}
             />
+        {!isValid && <p className='text-danger mt-2'>{error}</p>}
         </Form.Group>
     );
 });

@@ -2,7 +2,7 @@ import { Button, Container, Dropdown, Modal, Nav, Navbar, Offcanvas } from 'reac
 import './Header.scss';
 import { Link, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import {useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import MyNavLink from '~/components/MyNavLink/MyNavLink';
 import config from '~/config';
 import { logout } from '~/redux/actions/authActions';
@@ -14,10 +14,10 @@ function Header() {
     const dispatch = useDispatch();
     const nav = useNavigate();
     const { t } = useTranslation();
-    const handleSignOut = () =>{
+    const handleSignOut = () => {
         dispatch(logout());
         nav(config.routes.singin);
-    }
+    };
     return (
         <>
             <Navbar bg="light" expand="sm" className="fixed-top">
@@ -47,32 +47,39 @@ function Header() {
                                 <MyNavLink link={'#1'}>{t('nav-services')}</MyNavLink>
                                 <MyNavLink link={'#2'}>{t('nav-team')}</MyNavLink>
                                 <MyNavLink link={'#3'}>{t('nav-contact')}</MyNavLink>
-                                {!isAuthenticated && <MyNavLink link={config.routes.singin}>{t('nav-sign-in')}</MyNavLink>}
+                                <MyNavLink link={config.routes.register}>{t('nav-sign-up')}</MyNavLink>
+                                {!isAuthenticated && (
+                                    <MyNavLink link={config.routes.singin}>{t('nav-sign-in')}</MyNavLink>
+                                )}
                                 <LanguageToggleButton />
                                 {/* Message Box */}
-                                {/* <div className="massage-box">
-                                    <button className="btn-massage">
-                                        <i className="fa-regular fa-message"></i>
-                                    </button>
-                                </div> */}
-                                {isAuthenticated && <Dropdown>
-                                    <Dropdown.Toggle id="dropdown-basic" className="nav-avatar">
-                                        <img
-                                            src={user.image}
-                                            width="40"
-                                            height="40"
-                                            className="rounded-circle"
-                                            alt="err"
-                                        />
-                                    </Dropdown.Toggle>
-                                    <Dropdown.Menu>
-                                        <Dropdown.Item href="#/action-1">Hi, {user['first_name']}</Dropdown.Item>
-                                        <Dropdown.Item href="#/action-2">Sửa thông tin</Dropdown.Item>
-                                        <Dropdown.Item href="#/action-2">Đổi mật khẩu</Dropdown.Item>
-                                        <Dropdown.Divider />
-                                        <Dropdown.Item onClick={handleSignOut}>{t('nav-sign-out')}</Dropdown.Item>
-                                    </Dropdown.Menu>
-                                </Dropdown>}
+                                <div className="massage-box">
+                                    <MyNavLink link={config.routes.chatRoom}>
+                                        <button className="btn-massage">
+                                            <i className="fa-regular fa-message"></i>
+                                        </button>
+                                    </MyNavLink>
+                                </div>
+                                {isAuthenticated && (
+                                    <Dropdown>
+                                        <Dropdown.Toggle id="dropdown-basic" className="nav-avatar">
+                                            <img
+                                                src={user.image}
+                                                width="40"
+                                                height="40"
+                                                className="rounded-circle"
+                                                alt="err"
+                                            />
+                                        </Dropdown.Toggle>
+                                        <Dropdown.Menu>
+                                            <Dropdown.Item href="#/action-1">Hi, {user['first_name']}</Dropdown.Item>
+                                            <Dropdown.Item href="#/action-2">Sửa thông tin</Dropdown.Item>
+                                            <Dropdown.Item href="#/action-2">Đổi mật khẩu</Dropdown.Item>
+                                            <Dropdown.Divider />
+                                            <Dropdown.Item onClick={handleSignOut}>{t('nav-sign-out')}</Dropdown.Item>
+                                        </Dropdown.Menu>
+                                    </Dropdown>
+                                )}
                             </Nav>
                         </Offcanvas.Body>
                     </Navbar.Offcanvas>
@@ -82,4 +89,3 @@ function Header() {
     );
 }
 export default Header;
-

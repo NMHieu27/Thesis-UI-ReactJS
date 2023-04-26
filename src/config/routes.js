@@ -1,9 +1,13 @@
 const routes = {
     // Client routes
-    home: '/',
+    home: '/', 
+    // Test chat routes
+    chatRoom: '/chat',
+    // Admin routes
+    register: '/admin/dang-ki-tai-khoan',
     // Auth routes
     singin: '/auth/dang-nhap',
     // User routes
-    edit: ''
+    edit: '',
 };
 export default routes;

@@ -1,4 +1,4 @@
-import {  useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import './Sigin.scss';
 import { Button, Form } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
@@ -9,6 +9,8 @@ import InputItem from '~/components/Form/InputItem/InputItem';
 import authAPI from '~/api/authAPI/authAPI';
 import { loginSuccess } from '~/redux/actions/authActions';
 import { useDispatch } from 'react-redux';
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import { auth } from '~/firebase';
 function Signin() {
     const dispatch = useDispatch();
     const [loadSVG, setLoadSVG] = useState(false);
@@ -50,7 +52,7 @@ function Signin() {
                 if (localStorage.getItem('access-token')) {
                     let user = await authAPI.currentUser();
                     localStorage.setItem('current-user', JSON.stringify(user.data));
-
+                    await signInWithEmailAndPassword(auth, user.data.email, password);
                     toast.success('Đăng nhập thành công');
                     dispatch(loginSuccess(user.data));
                     if (user !== null) {

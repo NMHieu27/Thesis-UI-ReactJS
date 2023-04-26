@@ -7,16 +7,22 @@ import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import { Provider } from 'react-redux';
 import store from './redux/store';
+import { AuthContextProvider } from './context/AuthContext';
+import { ChatContextProvider } from './context/ChatContext';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
+    <AuthContextProvider>
+    <ChatContextProvider>
     <GlobalStyle>
         <React.StrictMode>
             <Provider store={store}>
                 <App />
             </Provider>
         </React.StrictMode>
-    </GlobalStyle>,
+    </GlobalStyle>
+    </ChatContextProvider>,
+    </AuthContextProvider>
 );
 
 // Language

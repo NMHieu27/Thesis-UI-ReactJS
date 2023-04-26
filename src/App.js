@@ -1,7 +1,7 @@
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { authRoutes, publicRoutes } from './routes/routes';
+import { authRoutes, privateRoutes, publicRoutes } from './routes/routes';
 import Page404 from './pages/PageNotFound/Page404';
 import DefaultLayout from './layouts/DefaultLayout/DefaultLayout';
 function App() {
@@ -22,6 +22,13 @@ function App() {
                             {/* Public Routes */}
                             <Route path="/" element={<DefaultLayout />}>
                                 {publicRoutes.map((route, index) => {
+                                    const Page = route.component;
+                                    return <Route key={index} path={route.path} element={<Page />} />;
+                                })}
+                            </Route>
+                            {/* Private Routes */}
+                            <Route path="/admin" element={<DefaultLayout />}>
+                                {privateRoutes.map((route, index) => {
                                     const Page = route.component;
                                     return <Route key={index} path={route.path} element={<Page />} />;
                                 })}

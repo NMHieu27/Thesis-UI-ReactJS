@@ -9,7 +9,7 @@ const authAPI = {
         return axiosClient.post(url, params);
     },
     signUp: (params) => {
-        const url = '/auth/signup';
+        const url = '/users/';
         return axiosClient.post(url, params);
     },
     currentUser: ()=>{
