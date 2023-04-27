@@ -14,7 +14,7 @@ function Home() {
                             <p className="intro-text-content delay-04">
                                 {t('homepage-intro-content')}
                             </p>
-                            <div className='btn-intro-detail-container'><Button className="btn-intro-detail delay-06">{t('homepage-intro-detail')}</Button></div>
+                            <div className='btn-intro-detail-container'><button className="btn-intro-detail delay-06">{t('homepage-intro-detail')}</button></div>
                         </div>
                     </div>
                     <div className="home-intro-image">

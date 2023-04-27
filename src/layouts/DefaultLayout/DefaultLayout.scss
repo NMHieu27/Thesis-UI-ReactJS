@@ -1,13 +1,50 @@
-.default-layout-wrapper{
+.default-layout-wrapper {
     font-size: 1.1rem !important;
     position: relative;
+
+    .btn-chat-container {
+        bottom: 7.5%;
+        right: 5%;
+        position: fixed;
+        z-index: 10;
+        transform: rotate(10deg);
+
+        .btn-chat {
+            padding-top: 4px;
+            font-size: 2.5rem;
+            color: var(--main-bg-color);
+            background: #f0fbff;
+            border-radius: 100%;
+            width: 60px;
+            height: 60px;
+
+            &:hover {
+                transform: rotate(-10deg);
+                background: var(--main-bg-color);
+                color: white;
+                transition: 0.3s ease-in-out;
+            }
+        }
+        .btn-chat-active {
+            transform: rotate(-10deg);
+            background: var(--main-bg-color);
+            color: white;
+            transition: 0.3s ease-in-out;
+        }
+    }
+    .chat-room-wrapper {
+        z-index: 9;
+        width: 100%;
+        height: 100vh;
+        position: fixed;
+    }
 }
-.header-wrapper{
+.header-wrapper {
 }
-.body-wrapper{
+.body-wrapper {
     min-height: 100vh;
 }
-.body-wrapper .body-wrapper-content{
+.body-wrapper .body-wrapper-content {
     padding-top: 75px;
 }
 .show-to-top-parallax {
@@ -29,10 +66,10 @@
     animation-delay: 0.8s !important;
 }
 @keyframes showTop {
-    from{
+    from {
         opacity: 0;
     }
-    to{
+    to {
         opacity: 1;
     }
 }

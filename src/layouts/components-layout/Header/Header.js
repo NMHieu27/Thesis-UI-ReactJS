@@ -53,13 +53,13 @@ function Header() {
                                 )}
                                 <LanguageToggleButton />
                                 {/* Message Box */}
-                                <div className="massage-box">
+                                {/* <div className="massage-box">
                                     <MyNavLink link={config.routes.chatRoom}>
                                         <button className="btn-massage">
                                             <i className="fa-regular fa-message"></i>
                                         </button>
                                     </MyNavLink>
-                                </div>
+                                </div> */}
                                 {isAuthenticated && (
                                     <Dropdown>
                                         <Dropdown.Toggle id="dropdown-basic" className="nav-avatar">

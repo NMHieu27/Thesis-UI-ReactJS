@@ -4,6 +4,10 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { authRoutes, privateRoutes, publicRoutes } from './routes/routes';
 import Page404 from './pages/PageNotFound/Page404';
 import DefaultLayout from './layouts/DefaultLayout/DefaultLayout';
+import 'moment-timezone';
+import moment from 'moment';
+import 'moment/locale/vi';
+moment().local('vi');
 function App() {
     return (
         <>

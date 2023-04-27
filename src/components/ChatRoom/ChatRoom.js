@@ -2,11 +2,7 @@ import { useState } from 'react';
 import Chat from './Chat';
 import './ChatRoom.scss';
 import ChatSidebar from './ChatSidebar';
-function ChatRoom() {
-    const [isShowBoxChat, setIsShowBoxChat] = useState(false);
-    const handleClick = () => {
-        setIsShowBoxChat(!isShowBoxChat);
-    };
+function ChatRoom({isShowBoxChat, setIsShowBoxChat}) {
     return (
         <div className="chat-room">
             {isShowBoxChat && (
@@ -15,9 +11,6 @@ function ChatRoom() {
                     <Chat isShowBoxChat={isShowBoxChat} setIsShowBoxChat={setIsShowBoxChat} />
                 </div>
             )}
-            <button className="btn-massage-2" onClick={handleClick}>
-                <i className="fa-regular fa-message"></i>
-            </button>
         </div>
     );
 }

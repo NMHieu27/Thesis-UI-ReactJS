@@ -26,15 +26,19 @@ const ChatInput = () => {
     const handleChangeImg = (e) => {
         const imgBox = document.querySelector('.img-send-container');
         imgBox.innerHTML = '';
+
         const imgConatainer = document.createElement('div');
-        imgConatainer.classList.add('img-container');
+        imgConatainer.classList.add('img-wrapper');
+
+
         const btnRemoveImg = document.createElement('button');
         btnRemoveImg.innerHTML = `<i class="fa-solid fa-xmark"></i>`;
         btnRemoveImg.classList.add('btn-remove-img');
         btnRemoveImg.onclick = () => {
             handleRemoveImg();
         };
-        imgConatainer.innerHTML = `<div className="img-container"><img src=${URL?.createObjectURL(
+
+        imgConatainer.innerHTML = `<div class="img-container"><img src=${URL?.createObjectURL(
             e?.target?.files[0],
         )} alt="err"/></div>`;
         imgConatainer.appendChild(btnRemoveImg);
@@ -96,10 +100,13 @@ const ChatInput = () => {
             });
         }
     };
+    const handleKey = (e) =>{
+        e.code === "Enter" && handleSend();
+    }
     return (
         <div className="input">
             <div className="img-send-container"></div>
-            <input type="text" placeholder="Type something..." onChange={(e) => setText(e.target.value)} value={text} />
+            <input type="text" placeholder="Type something..." onChange={(e) => setText(e.target.value)} value={text} onKeyDown={handleKey}/>
             <div className="send">
                 {/* <img src={'Attach'} alt="attach" /> */}
                 <input type="file" style={{ display: 'none' }} id="file" onChange={handleChangeImg} />
