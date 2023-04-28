@@ -23,6 +23,7 @@
                 background: var(--main-bg-color);
                 color: white;
                 transition: 0.3s ease-in-out;
+                font-size: 2rem;
             }
         }
         .btn-chat-active {
@@ -30,6 +31,7 @@
             background: var(--main-bg-color);
             color: white;
             transition: 0.3s ease-in-out;
+            font-size: 2rem;
         }
     }
     .chat-room-wrapper {

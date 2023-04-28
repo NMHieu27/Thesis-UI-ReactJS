@@ -11,6 +11,7 @@ import { loginSuccess } from '~/redux/actions/authActions';
 import { useDispatch } from 'react-redux';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '~/firebase';
+import Loading from '~/components/Loading/Loading';
 function Signin() {
     const dispatch = useDispatch();
     const [loadSVG, setLoadSVG] = useState(false);
@@ -33,9 +34,8 @@ function Signin() {
         }, 200);
     }, []);
 
-    const login = (evt) => {
+    const login = (evt) => {;
         evt.preventDefault();
-
         const process = async () => {
             try {
                 const params = {
@@ -128,18 +128,13 @@ function Signin() {
                                     )}
                                 </span>
                             </div>
-
-                            {/* {loading ? (
-                                <Loading />
-                            ) : ( */}
                             <div className="login-form-action">
                                 <Link to={'/ddd'}>Forgot password?</Link>
-                                <Button className="btn-lg btn-login" variant="primary" type="submit">
-                                    Sign In
+                                <Button className="btn-lg btn-login" variant="primary" type="submit" disabled={loading}>
+                                    Sign In{loading && <span>&nbsp;</span>}
+                                    {loading && <Loading/>}
                                 </Button>
                             </div>
-
-                            {/* )} */}
                         </Form>
                     </div>
                 </div>

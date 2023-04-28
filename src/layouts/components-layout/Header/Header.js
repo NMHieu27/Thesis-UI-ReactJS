@@ -8,6 +8,9 @@ import config from '~/config';
 import { logout } from '~/redux/actions/authActions';
 import images from '~/assets/images';
 import LanguageToggleButton from '~/components/LanguageToggleButton/LanguageToggleButton';
+import { signOut } from 'firebase/auth';
+import { auth } from '~/firebase';
+import { toast } from 'react-toastify';
 function Header() {
     const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
     const user = useSelector((state) => state.auth.user);
@@ -16,6 +19,12 @@ function Header() {
     const { t } = useTranslation();
     const handleSignOut = () => {
         dispatch(logout());
+        try{
+            signOut(auth);
+        }
+        catch{
+            toast.error("loi firebase");
+        }
         nav(config.routes.singin);
     };
     return (
