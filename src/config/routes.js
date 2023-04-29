@@ -1,8 +1,11 @@
 const routes = {
     // Client routes
     home: '/', 
+
     // Admin routes
-    register: '/admin/dang-ki-tai-khoan',
+    users: '/admin/danh-sach-tai-khoan', 
+    register: '/admin/dang-ki-tai-khoan', 
+    
     // Auth routes
     singin: '/auth/dang-nhap',
     // User routes
