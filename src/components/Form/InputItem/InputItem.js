@@ -1,5 +1,6 @@
 import React from 'react';
 import { Form } from 'react-bootstrap';
+import { Message } from 'primereact/message';
 
 const InputItem = React.forwardRef(({ label, type, value, setValue, name, placeholder = '', error = null, pattern = null }, ref) => {
    let isValid = true;
@@ -27,7 +28,7 @@ const InputItem = React.forwardRef(({ label, type, value, setValue, name, placeh
                 onChange={setValue}
                 placeholder={placeholder}
             />
-        {!isValid && <p className='text-danger mt-2'>{error}</p>}
+        {!isValid && <Message className='mt-2' severity="error" text={error} />}
         </Form.Group>
     );
 });

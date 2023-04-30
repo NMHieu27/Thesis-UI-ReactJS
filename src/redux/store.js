@@ -12,10 +12,12 @@
 import { configureStore } from '@reduxjs/toolkit';
 import authReducer from './reducers/authReducer';
 import thunk from 'redux-thunk';
+import usersReducer from './reducers/usersReducer';
 
 const store = configureStore({
     reducer: {
         auth: authReducer,
+        users: usersReducer,
     },
     middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(thunk),
     devTools: process.env.NODE_ENV !== 'production',

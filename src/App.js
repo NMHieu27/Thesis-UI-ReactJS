@@ -4,6 +4,10 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { authRoutes, privateRoutes, publicRoutes } from './routes/routes';
 import Page404 from './pages/PageNotFound/Page404';
 import DefaultLayout from './layouts/DefaultLayout/DefaultLayout';
+//theme
+import "primereact/resources/themes/lara-light-indigo/theme.css";     
+//core
+import "primereact/resources/primereact.min.css";  
 import 'moment-timezone';
 import moment from 'moment';
 import 'moment/locale/vi';

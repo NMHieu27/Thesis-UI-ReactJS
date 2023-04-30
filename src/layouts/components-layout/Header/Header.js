@@ -53,7 +53,7 @@ function Header() {
                             <Nav className="justify-content-end flex-grow-1 pe-3">
                                 <MyNavLink link={config.routes.home}>{t('nav-home')}</MyNavLink>
                                 <MyNavLink link={'/about'}>{t('nav-about')}</MyNavLink>
-                                <MyNavLink link={'#1'}>{t('nav-accounts')}</MyNavLink>
+                                <MyNavLink link={config.routes.users}>{t('nav-accounts')}</MyNavLink>
                                 <MyNavLink link={'#2'}>{t('nav-team')}</MyNavLink>
                                 <MyNavLink link={'#3'}>{t('nav-contact')}</MyNavLink>
                                 <MyNavLink link={config.routes.register}>{t('nav-sign-up')}</MyNavLink>
@@ -61,14 +61,6 @@ function Header() {
                                     <MyNavLink link={config.routes.singin}>{t('nav-sign-in')}</MyNavLink>
                                 )}
                                 <LanguageToggleButton />
-                                {/* Message Box */}
-                                {/* <div className="massage-box">
-                                    <MyNavLink link={config.routes.chatRoom}>
-                                        <button className="btn-massage">
-                                            <i className="fa-regular fa-message"></i>
-                                        </button>
-                                    </MyNavLink>
-                                </div> */}
                                 {isAuthenticated && (
                                     <Dropdown>
                                         <Dropdown.Toggle id="dropdown-basic" className="nav-avatar">
