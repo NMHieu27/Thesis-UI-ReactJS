@@ -8,9 +8,7 @@ import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import { Tag } from 'primereact/tag';
 import { InputText } from 'primereact/inputtext';
-import { FilterMatchMode, FilterOperator } from 'primereact/api';
-import { majorData } from '~/fakedata/major';
-import { roleData } from '~/fakedata/role';
+import { FilterMatchMode } from 'primereact/api';
 import { Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import config from '~/config';
@@ -18,8 +16,6 @@ function Users() {
     const users = useSelector((state) => state.users.data);
     const dispatch = useDispatch();
     // const [users, setUsers] = useState();
-    const [roles, setRoles] = useState();
-    const [majors, setMajors] = useState();
     const [globalFilterValue, setGlobalFilterValue] = useState('');
     const [filters, setFilters] = useState({
         global: { value: null, matchMode: FilterMatchMode.CONTAINS },
@@ -29,21 +25,19 @@ function Users() {
         last_name: { value: null, matchMode: FilterMatchMode.CONTAINS },
         status: { value: null, matchMode: FilterMatchMode.CONTAINS },
         email: { value: null, matchMode: FilterMatchMode.CONTAINS },
-        'role.name': { value: null, matchMode: FilterMatchMode.CONTAINS},
-        'major.name': { value: null, matchMode: FilterMatchMode.CONTAINS},
+        'role.name': { value: null, matchMode: FilterMatchMode.CONTAINS },
+        'major.name': { value: null, matchMode: FilterMatchMode.CONTAINS },
     });
     useEffect(() => {
         // setUsers(users)
         dispatch(fetchUsers(usersData));
-        setRoles(roleData);
-        setMajors(majorData);
     }, []);
 
-    const handleDeleteUser = (id) =>{
-        if(window.confirm('Do you want to delete this record?' )){
+    const handleDeleteUser = (id) => {
+        if (window.confirm('Do you want to delete this record?')) {
             dispatch(deleteUser(id));
         }
-    }
+    };
     // Render
     const getSeverity = (user) => {
         switch (user.status) {
@@ -60,10 +54,10 @@ function Users() {
         return <img src={user.img} width="40" height="40" className="rounded-circle" alt="err" />;
     };
     const roleBodyTemplate = (user) => {
-        return roles?.find((role) => role.id === user.roleID).name;
+        return user.role.name;
     };
     const majorBodyTemplate = (user) => {
-        return majors?.find((major) => major.id === user.majorID).name;
+        return user.major.name;
     };
     const statusBodyTemplate = (user) => {
         return <Tag value={user.status === 0 ? 'Khóa' : 'Không khóa'} severity={getSeverity(user)}></Tag>;
@@ -71,10 +65,12 @@ function Users() {
     const actionBodyTemplate = (rowData) => {
         return (
             <div className="d-flex action-container">
-                <Button variant="success">
-                    <i className="fa-solid fa-pen-to-square"></i>
-                </Button>
-                <Button variant="danger" onClick={()=>handleDeleteUser(rowData.id)}>
+                <Link to={`/admin/tai-khoan/${rowData.id}`}>
+                    <Button variant="success">
+                        <i className="fa-solid fa-pen-to-square"></i>
+                    </Button>
+                </Link>
+                <Button variant="danger" onClick={() => handleDeleteUser(rowData.id)}>
                     <i className="fa-solid fa-trash"></i>
                 </Button>
             </div>
@@ -91,7 +87,11 @@ function Users() {
     };
     const header = (
         <div className="d-flex justify-content-between">
-            <Link to={config.routes.register}><Button style={{background:'#0841c3'}}><i class="fa-solid fa-plus"></i> Add</Button></Link>
+            <Link to={config.routes.register}>
+                <Button style={{ background: '#0841c3' }}>
+                    <i className="fa-solid fa-plus"></i> Add
+                </Button>
+            </Link>
             <span className="p-input-icon-left">
                 <i className="fa-solid fa-magnifying-glass"></i>
                 <InputText value={globalFilterValue} onChange={onGlobalFilterChange} placeholder="Keyword Search" />
@@ -101,7 +101,9 @@ function Users() {
     return (
         <Helmet title="Danh sách tài khoản">
             <div className="users-wrapper">
-                <h2 className='text-center m-4' style={{color:'#0841c3'}} >Quản lí tài khoản</h2>
+                <h2 className="text-center m-4" style={{ color: '#0841c3' }}>
+                    Quản lí tài khoản
+                </h2>
                 <div className="card">
                     <DataTable
                         header={header}

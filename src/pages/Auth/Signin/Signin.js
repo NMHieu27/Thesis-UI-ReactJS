@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import './Sigin.scss';
-import { Button, Form } from 'react-bootstrap';
+import { Form } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import Helmet from '~/components/Helmet/Helmet';
@@ -11,7 +11,7 @@ import { loginSuccess } from '~/redux/actions/authActions';
 import { useDispatch } from 'react-redux';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '~/firebase';
-import Loading from '~/components/Loading/Loading';
+import ButtonSubmit from '~/components/Form/ButtonSubmit/ButtonSubmit';
 function Signin() {
     const dispatch = useDispatch();
     const [loadSVG, setLoadSVG] = useState(false);
@@ -102,7 +102,7 @@ function Signin() {
                         </div>
                     </div>
                     <div className="login-form-container">
-                        <Form onSubmit={login} className="login-form" noValidate={true}>
+                        <Form onSubmit={login} className="login-form">
                             <div className="greeting-container">
                                 <h2>Hey!</h2>
                                 <h1>WELLCOME BACK</h1>
@@ -130,10 +130,7 @@ function Signin() {
                             </div>
                             <div className="login-form-action">
                                 <Link to={'/ddd'}>Forgot password?</Link>
-                                <Button className="btn-lg btn-login" variant="primary" type="submit" disabled={loading}>
-                                    Sign In{loading && <span>&nbsp;</span>}
-                                    {loading && <Loading/>}
-                                </Button>
+                                <ButtonSubmit content='Sign In' loading={loading}/>
                             </div>
                         </Form>
                     </div>

@@ -12,7 +12,7 @@ const InputItem = React.forwardRef(({ label, type, value, setValue, name, placeh
         return (
             <Form.Group className="mb-3" controlId={name}>
                 <Form.Label>{label}</Form.Label>
-                <Form.Control type="file" ref={ref} />
+                <Form.Control type="file" ref={ref} onChange={setValue} className="form-control-lg"/>
             </Form.Group>
         );
 

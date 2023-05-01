@@ -1,5 +1,6 @@
 import config from "~/config"
 import DefaultLayout from "~/layouts/DefaultLayout/DefaultLayout";
+import EditUser from "~/pages/Admin/UserManagement/EditUser/EditUser";
 import Users from "~/pages/Admin/UserManagement/Users/Users";
 import Signin from "~/pages/Auth/Signin/Signin"
 import Signup from "~/pages/Auth/Signup/Signup";
@@ -11,8 +12,10 @@ const publicRoutes = [
 ]
 // Private Routes
 const privateRoutes = [
+    // Users
     {path:config.routes.users, component:Users, layout:DefaultLayout},
-    { path:config.routes.register, component:Signup, layout:DefaultLayout}
+    { path:config.routes.register, component:Signup, layout:DefaultLayout},
+    {path:config.routes.editUser, component:EditUser, layout:DefaultLayout}
 ]
 // Auth Routes
 const authRoutes = [
