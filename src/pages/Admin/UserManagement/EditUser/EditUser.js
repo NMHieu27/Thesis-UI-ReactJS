@@ -10,7 +10,6 @@ import { roleData } from '~/fakedata/role';
 import { Dropdown } from 'primereact/dropdown';
 import ButtonSubmit from '~/components/Form/ButtonSubmit/ButtonSubmit';
 import { usersData } from '~/fakedata/users';
-import userStatus from './userStatus';
 function EditUser() {
     const { userID } = useParams();
     const [user, setUser] = useState({});
