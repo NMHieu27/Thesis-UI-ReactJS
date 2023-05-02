@@ -52,7 +52,7 @@ function Header() {
                         <Offcanvas.Body>
                             <Nav className="justify-content-end flex-grow-1 pe-3">
                                 <MyNavLink link={config.routes.home}>{t('nav-home')}</MyNavLink>
-                                <MyNavLink link={'/about'}>{t('nav-about')}</MyNavLink>
+                                <MyNavLink link={config.routes.councils}>{t('nav-councils')}</MyNavLink>
                                 <MyNavLink link={config.routes.users}>{t('nav-accounts')}</MyNavLink>
                                 <MyNavLink link={'#2'}>{t('nav-team')}</MyNavLink>
                                 <MyNavLink link={'#3'}>{t('nav-contact')}</MyNavLink>

@@ -4,13 +4,14 @@ import EditUser from "~/pages/Admin/UserManagement/EditUser/EditUser";
 import Users from "~/pages/Admin/UserManagement/Users/Users";
 import Signin from "~/pages/Auth/Signin/Signin"
 import Signup from "~/pages/Auth/Signup/Signup";
+import CouncilManagement from "~/pages/Council/CouncillManagement/CouncillManagement";
 import Home from "~/pages/Home/Home";
 
 // Public Routes
 const publicRoutes = [
     { path:config.routes.home, component: Home, layout: DefaultLayout},
 ]
-// Private Routes
+// Private Routes (Admin routes)
 const privateRoutes = [
     // Users
     {path:config.routes.users, component:Users, layout:DefaultLayout},
@@ -21,4 +22,9 @@ const privateRoutes = [
 const authRoutes = [
     {path: config.routes.singin, component: Signin, layout: null}
 ]
-export {authRoutes, publicRoutes, privateRoutes};
+
+// Assessor Routes
+const assessorRoutes=[
+    {path: config.routes.councils, component: CouncilManagement, layout:DefaultLayout},
+]
+export {authRoutes, publicRoutes, privateRoutes, assessorRoutes};

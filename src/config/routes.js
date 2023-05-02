@@ -9,7 +9,10 @@ const routes = {
     
     // Auth routes
     singin: '/auth/dang-nhap',
-    // User routes
-    edit: '',
+
+    // Assessor routes
+    councils: '/academic-admin/danh-sach-hoi-dong',
+    addCouncil: '/academic-admin/them-hoi-dong',
+    editCouncil: '/academic-admin/cap-nhat-hoi-dong/:councilID',
 };
 export default routes;

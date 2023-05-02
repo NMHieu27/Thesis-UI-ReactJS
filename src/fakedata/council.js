@@ -33,8 +33,12 @@ const councilData = [
                 img: 'https://res.cloudinary.com/ddphodfop/image/upload/v1682961135/PTrang1_qkteq9.jpg',
             },
         ],
+        major: {
+            id: 1,
+            name: 'CNTT',
+        },
         thesis_count: 2,
-        create_at: '14/05/2023',
+        created_at: '14/05/2023',
         status: 1,
     },
     {
@@ -71,8 +75,12 @@ const councilData = [
                 img: 'https://res.cloudinary.com/ddphodfop/image/upload/v1682961135/KAnh_1_gpbaq6.jpg',
             },
         ],
+        major: {
+            id: 1,
+            name: 'CNTT',
+        },
         thesis_count: 4,
-        create_at: '18/05/2023',
+        created_at: '18/05/2023',
         status: 0,
     },
     {
@@ -109,8 +117,12 @@ const councilData = [
                 img: 'https://res.cloudinary.com/ddphodfop/image/upload/v1682961135/PTrang1_qkteq9.jpg',
             },
         ],
+        major: {
+            id: 1,
+            name: 'CNTT',
+        },
         thesis_count: 0,
-        create_at: '10/05/2023',
+        created_at: '10/05/2023',
         status: 1,
     },
 ];
