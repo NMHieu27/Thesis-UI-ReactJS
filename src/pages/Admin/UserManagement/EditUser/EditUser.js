@@ -77,7 +77,7 @@ function EditUser() {
     };
 
     return (
-        <Helmet title="Đăng kí tài khoản">
+        <Helmet title="Sửa tài khoản">
             <div className="signup-wrapper">
                 <h2 className="text-center m-4" style={{ color: '#0841c3' }}>
                     Chỉnh sửa tài khoản

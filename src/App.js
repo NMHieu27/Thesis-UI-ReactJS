@@ -1,7 +1,7 @@
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { assessorRoutes, authRoutes, privateRoutes, publicRoutes } from './routes/routes';
+import { academicAdminRoutes, authRoutes, privateRoutes, publicRoutes } from './routes/routes';
 import Page404 from './pages/PageNotFound/Page404';
 import DefaultLayout from './layouts/DefaultLayout/DefaultLayout';
 //theme
@@ -43,7 +43,7 @@ function App() {
                             </Route>
                             {/* Academic Administrator */}
                             <Route path='/academic-admin' element={<DefaultLayout/>}>
-                                {assessorRoutes.map((route, index) => {
+                                {academicAdminRoutes.map((route, index) => {
                                     const Page = route.component;
                                     return <Route key={index} path={route.path} element={<Page />} />;
                                 })}

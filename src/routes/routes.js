@@ -4,7 +4,9 @@ import EditUser from "~/pages/Admin/UserManagement/EditUser/EditUser";
 import Users from "~/pages/Admin/UserManagement/Users/Users";
 import Signin from "~/pages/Auth/Signin/Signin"
 import Signup from "~/pages/Auth/Signup/Signup";
-import CouncilManagement from "~/pages/Council/CouncillManagement/CouncillManagement";
+import AddCouncil from "~/pages/Council/AddCouncil/AddCouncil";
+import CouncilManagement from "~/pages/Council/CouncilManagement/CouncilManagement";
+import EditCouncil from "~/pages/Council/EditCouncil/EditCouncil";
 import Home from "~/pages/Home/Home";
 
 // Public Routes
@@ -23,8 +25,10 @@ const authRoutes = [
     {path: config.routes.singin, component: Signin, layout: null}
 ]
 
-// Assessor Routes
-const assessorRoutes=[
+// Academic Admin Routes
+const academicAdminRoutes=[
     {path: config.routes.councils, component: CouncilManagement, layout:DefaultLayout},
+    {path:config.routes.addCouncil, component:AddCouncil, layout:DefaultLayout},
+    {path:config.routes.editCouncil, component:EditCouncil, layout:DefaultLayout},
 ]
-export {authRoutes, publicRoutes, privateRoutes, assessorRoutes};
+export {authRoutes, publicRoutes, privateRoutes, academicAdminRoutes};

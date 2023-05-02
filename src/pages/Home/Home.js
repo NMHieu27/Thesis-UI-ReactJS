@@ -10,11 +10,11 @@ function Home() {
                 <div className="home-intro">
                     <div className="home-intro-text-wrapper">
                         <div className="home-intro-text-container">
-                            <div className="intro-text-title delay-02">{t('homepage-intro-title')}</div>
-                            <p className="intro-text-content delay-04">
+                            <div className="intro-text-title delay-01">{t('homepage-intro-title')}</div>
+                            <p className="intro-text-content delay-02">
                                 {t('homepage-intro-content')}
                             </p>
-                            <div className='btn-intro-detail-container'><button className="btn-intro-detail delay-06">{t('homepage-intro-detail')}</button></div>
+                            <div className='btn-intro-detail-container'><button className="btn-intro-detail delay-03">{t('homepage-intro-detail')}</button></div>
                         </div>
                     </div>
                     <div className="home-intro-image">

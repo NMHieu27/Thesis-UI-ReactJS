@@ -9,7 +9,7 @@ import { Link } from 'react-router-dom';
 import Helmet from '~/components/Helmet/Helmet';
 import config from '~/config';
 import councilData from '~/fakedata/council';
-import './CouncillManagement.scss'
+import './CouncilManagement.scss';
 
 function CouncilManagement() {
     const [councils, setCouncils] = useState();
@@ -21,6 +21,9 @@ function CouncilManagement() {
         status: { value: null, matchMode: FilterMatchMode.EQUALS },
         created_at: { value: null, matchMode: FilterMatchMode.CONTAINS },
         'major.name': { value: null, matchMode: FilterMatchMode.CONTAINS },
+        'chainman.first_name': { value: null, matchMode: FilterMatchMode.CONTAINS },
+        'secretary.first_name': { value: null, matchMode: FilterMatchMode.CONTAINS },
+        'assessor.first_name': { value: null, matchMode: FilterMatchMode.CONTAINS },
     });
     useEffect(() => {
         // Call API get councils
@@ -51,25 +54,28 @@ function CouncilManagement() {
             <div className="text-center">
                 <img
                     src={rowData[field].img}
-                    alt={rowData[field].last_name +" "+ rowData[field].first_name }
-                    style={{ width: 32, height: 32, borderRadius: '50%', marginRight: 8 }}
+                    alt={rowData[field].last_name + ' ' + rowData[field].first_name}
+                    style={{ width: 40, height: 40, borderRadius: '50%', marginRight: 8 }}
                 />
-                <p>{rowData[field].last_name +" "+ rowData[field].first_name}</p>
+                <p>{rowData[field].last_name + ' ' + rowData[field].first_name}</p>
             </div>
         );
     };
     const renderMembers = (rowData) => {
         return (
             <>
-            {rowData.members && rowData.members.map((member, index) =>
-            <div key={index} className="text-center">
-                <img
-                    src={member.img}
-                    alt={member.last_name +" "+ member.first_name }
-                    style={{ width: 32, height: 32, borderRadius: '50%', marginRight: 8 }}
-                />
-                <p>{member.last_name +" "+ member.first_name}</p>
-            </div>)}</>
+                {rowData.members &&
+                    rowData.members.map((member, index) => (
+                        <div key={index} className="text-center">
+                            <img
+                                src={member.img}
+                                alt={member.last_name + ' ' + member.first_name}
+                                style={{ width: 40, height: 40, borderRadius: '50%', marginRight: 8 }}
+                            />
+                            <p>{member.last_name + ' ' + member.first_name}</p>
+                        </div>
+                    ))}
+            </>
         );
     };
     const actionBodyTemplate = (rowData) => {
@@ -97,7 +103,7 @@ function CouncilManagement() {
     };
     const header = (
         <div className="d-flex justify-content-between">
-            <Link to={config.routes.register}>
+            <Link to={config.routes.addCouncil}>
                 <Button style={{ background: '#0841c3' }}>
                     <i className="fa-solid fa-plus"></i> Add
                 </Button>
@@ -123,7 +129,16 @@ function CouncilManagement() {
                         rowsPerPageOptions={[5, 10, 25, 50]}
                         dataKey="id"
                         filters={filters}
-                        globalFilterFields={['id', 'thesis_count', 'status', 'created_at', 'major.name']}
+                        globalFilterFields={[
+                            'id',
+                            'thesis_count',
+                            'status',
+                            'created_at',
+                            'major.name',
+                            'chainman.first_name',
+                            'secretary.first_name',
+                            'assessor.first_name',
+                        ]}
                         emptyMessage="No councils found."
                     >
                         <Column field="id" header="ID" sortable></Column>
@@ -131,9 +146,9 @@ function CouncilManagement() {
                         <Column header="Secretary" body={(rowData) => renderMember(rowData, 'secretary')}></Column>
                         <Column header="Assessor" body={(rowData) => renderMember(rowData, 'assessor')}></Column>
                         <Column header="Members" body={renderMembers}></Column>
-                        <Column header="Major" body={rowData => rowData.major.name}></Column>
-                        <Column header="Thesis count" field='thesis_count' sortable></Column>
-                        <Column header="Created at" body={(rowData)=>rowData.created_at} sortable></Column>
+                        <Column header="Major" body={(rowData) => rowData.major.name}></Column>
+                        <Column header="Thesis count" field="thesis_count" sortable></Column>
+                        <Column header="Created at" body={(rowData) => rowData.created_at} sortable></Column>
                         <Column body={statusBodyTemplate} header="Status"></Column>
                         <Column header="Action" body={actionBodyTemplate}></Column>
                     </DataTable>
