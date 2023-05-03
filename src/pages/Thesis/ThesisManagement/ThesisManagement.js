@@ -8,32 +8,30 @@ import { Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import Helmet from '~/components/Helmet/Helmet';
 import config from '~/config';
-import councilData from '~/fakedata/council';
+import { thesesData } from '~/fakedata/theses';
 
-function CouncilManagement() {
-    const [councils, setCouncils] = useState();
+function ThesisManagement() {
+    const [theses, setTheses] = useState();
     const [globalFilterValue, setGlobalFilterValue] = useState('');
     const [filters, setFilters] = useState({
         global: { value: null, matchMode: FilterMatchMode.CONTAINS },
+        name: { value: null, matchMode: FilterMatchMode.CONTAINS },
         id: { value: null, matchMode: FilterMatchMode.EQUALS },
-        thesis_count: { value: null, matchMode: FilterMatchMode.EQUALS },
         status: { value: null, matchMode: FilterMatchMode.EQUALS },
-        created_at: { value: null, matchMode: FilterMatchMode.CONTAINS },
+        mark: { value: null, matchMode: FilterMatchMode.EQUALS },
+        created_date: { value: null, matchMode: FilterMatchMode.CONTAINS },
         'major.name': { value: null, matchMode: FilterMatchMode.CONTAINS },
-        'chainman.first_name': { value: null, matchMode: FilterMatchMode.CONTAINS },
-        'secretary.first_name': { value: null, matchMode: FilterMatchMode.CONTAINS },
-        'assessor.first_name': { value: null, matchMode: FilterMatchMode.CONTAINS },
+        'criteriaForm.name': { value: null, matchMode: FilterMatchMode.CONTAINS }
     });
     useEffect(() => {
-        // Call API get councils
-        setCouncils(councilData);
+        // Call API get theses
+        setTheses(thesesData);
     }, []);
-    const handleDeleteCouncil = (id) => {
+    const handleDeleteThesis = (id) => {
         if (window.confirm('Do you want to delete this record?')) {
             // Call API delete
         }
     };
-    // Render
     const getSeverity = (council) => {
         switch (council.status) {
             case 0:
@@ -46,25 +44,14 @@ function CouncilManagement() {
         }
     };
     const statusBodyTemplate = (council) => {
-        return <Tag value={council.status === 0 ? 'Đóng' : 'Mở'} severity={getSeverity(council)}></Tag>;
+        return <Tag value={council.status === 0 ? 'Chưa chấm' : 'Đã chấm'} severity={getSeverity(council)}></Tag>;
     };
-    const renderMember = (rowData, field) => {
-        return (
-            <div className="text-center">
-                <img
-                    src={rowData[field].img}
-                    alt={rowData[field].last_name + ' ' + rowData[field].first_name}
-                    style={{ width: 40, height: 40, borderRadius: '50%', marginRight: 8 }}
-                />
-                <p>{rowData[field].last_name + ' ' + rowData[field].first_name}</p>
-            </div>
-        );
-    };
-    const renderMembers = (rowData) => {
+
+    const renderMembers = (rowData, field) => {
         return (
             <>
-                {rowData.members &&
-                    rowData.members.map((member, index) => (
+                {rowData[field] &&
+                    rowData[field].map((member, index) => (
                         <div key={index} className="text-center">
                             <img
                                 src={member.img}
@@ -80,12 +67,12 @@ function CouncilManagement() {
     const actionBodyTemplate = (rowData) => {
         return (
             <div className="d-flex action-container">
-                <Link to={`/academic-admin/cap-nhat-hoi-dong/${rowData.id}`}>
+                <Link to={`/academic-admin/cap-nhat-khoa-luan/${rowData.id}`}>
                     <Button variant="success">
                         <i className="fa-solid fa-pen-to-square"></i>
                     </Button>
                 </Link>
-                <Button variant="danger" onClick={() => handleDeleteCouncil(rowData.id)}>
+                <Button variant="danger" onClick={() => handleDeleteThesis(rowData.id)}>
                     <i className="fa-solid fa-trash"></i>
                 </Button>
             </div>
@@ -102,7 +89,7 @@ function CouncilManagement() {
     };
     const header = (
         <div className="d-flex justify-content-between">
-            <Link to={config.routes.addCouncil}>
+            <Link to={config.routes.addThesis}>
                 <Button style={{ background: '#0841c3' }}>
                     <i className="fa-solid fa-plus"></i> Add
                 </Button>
@@ -114,41 +101,51 @@ function CouncilManagement() {
         </div>
     );
     return (
-        <Helmet title="Danh sách hội đồng">
-            <div className="councils-wrapper">
+        <Helmet title="Danh sách khóa luận">
+            <div className="theses-wrapper">
                 <h2 className="text-center m-4" style={{ color: '#0841c3' }}>
-                    Quản lí hội đồng khoa
+                    Quản lí khóa luận khoa
                 </h2>
                 <div className="card">
                     <DataTable
                         header={header}
-                        value={councils}
+                        value={theses}
                         paginator
                         rows={5}
                         rowsPerPageOptions={[5, 10, 25, 50]}
                         dataKey="id"
                         filters={filters}
                         globalFilterFields={[
+                            'name',
                             'id',
-                            'thesis_count',
                             'status',
-                            'created_at',
+                            'mark',
+                            'created_date',
                             'major.name',
-                            'chainman.first_name',
-                            'secretary.first_name',
-                            'assessor.first_name',
+                            'criteriaForm.name',
                         ]}
-                        emptyMessage="No councils found."
+                        emptyMessage="No theses found."
                     >
                         <Column field="id" header="ID" sortable></Column>
-                        <Column header="Chainman" body={(rowData) => renderMember(rowData, 'chainman')}></Column>
-                        <Column header="Secretary" body={(rowData) => renderMember(rowData, 'secretary')}></Column>
-                        <Column header="Assessor" body={(rowData) => renderMember(rowData, 'assessor')}></Column>
-                        <Column header="Members" body={renderMembers}></Column>
-                        <Column header="Major" body={(rowData) => rowData.major.name}></Column>
-                        <Column header="Thesis count" field="thesis_count" sortable></Column>
-                        <Column header="Created at" body={(rowData) => rowData.created_at} sortable></Column>
-                        <Column body={statusBodyTemplate} header="Status"></Column>
+                        <Column field="name" header="Name" sortable></Column>
+                        <Column header="Students" body={(rowData) => renderMembers(rowData, 'students')}></Column>
+                        <Column header="Teachers" body={(rowData) => renderMembers(rowData, 'teachers')}></Column>
+                        <Column field="major.name" header="Major" body={(rowData) => rowData.major.name}></Column>
+                        <Column
+                            field="criteriaForm.name"
+                            header="Criteria"
+                            body={(rowData) => rowData.criteriaForm.name}
+                            sortable
+                        ></Column>
+                        <Column field='council.id' header="Council" body={(rowData) => `Hội đồng ${rowData.council.id}`} sortable></Column>
+                        <Column
+                            field="mark"
+                            header="Mark"
+                            body={(rowData) => (rowData.mark === null ? 'Chưa chấm' : rowData.mark)}
+                            sortable
+                        ></Column>
+                        <Column header="Created date" body={(rowData) => rowData.created_date} sortable></Column>
+                        <Column body={statusBodyTemplate} header="Status" field="status" sortable></Column>
                         <Column header="Action" body={actionBodyTemplate}></Column>
                     </DataTable>
                 </div>
@@ -157,4 +154,4 @@ function CouncilManagement() {
     );
 }
 
-export default CouncilManagement;
+export default ThesisManagement;

@@ -65,7 +65,7 @@ function Users() {
     const actionBodyTemplate = (rowData) => {
         return (
             <div className="d-flex action-container">
-                <Link to={`/admin/tai-khoan/${rowData.id}`}>
+                <Link to={`/admin/cap-nhat-tai-khoan/${rowData.id}`}>
                     <Button variant="success">
                         <i className="fa-solid fa-pen-to-square"></i>
                     </Button>

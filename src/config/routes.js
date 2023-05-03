@@ -5,14 +5,19 @@ const routes = {
     // Admin routes
     users: '/admin/danh-sach-tai-khoan', 
     register: '/admin/dang-ki-tai-khoan', 
-    editUser: '/admin/tai-khoan/:userID',
+    editUser: '/admin/cap-nhat-tai-khoan/:userID',
     
     // Auth routes
     singin: '/auth/dang-nhap',
 
-    // Assessor routes
+    // Academic admin routes
     councils: '/academic-admin/danh-sach-hoi-dong',
     addCouncil: '/academic-admin/them-hoi-dong',
     editCouncil: '/academic-admin/cap-nhat-hoi-dong/:councilID',
+
+    theses: '/academic-admin/danh-sach-khoa-luan',
+    addThesis: '/academic-admin/them-khoa-luan',
+    editThesis: '/academic-admin/cap-nhat-khoa-luan/:thesisID',
+
 };
 export default routes;

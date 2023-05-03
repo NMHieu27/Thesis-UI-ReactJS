@@ -1,4 +1,4 @@
-const teacherData = [
+export const teacherData = [
     {
         id: 4,
         first_name: 'Thành',
