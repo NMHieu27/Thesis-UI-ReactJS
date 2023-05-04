@@ -6,6 +6,7 @@ import { Container } from 'react-bootstrap';
 import { useEffect, useState } from 'react';
 import ChatRoom from '~/components/ChatRoom/ChatRoom';
 import { useSelector } from 'react-redux';
+import { ScrollTop } from 'primereact/scrolltop';
 function DefaultLayout() {
     const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
     const [isShowBoxChat, setIsShowBoxChat] = useState(false);
@@ -23,6 +24,7 @@ function DefaultLayout() {
     }, [isShowBoxChat]);
     return (
         <div className="default-layout-wrapper">
+            <ScrollTop />
             {isAuthenticated && (
                 <div className="btn-chat-container ps-absolute">
                     <button className="btn-chat" onClick={() => setIsShowBoxChat(!isShowBoxChat)}>

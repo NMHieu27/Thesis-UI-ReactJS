@@ -93,3 +93,15 @@
         opacity: 1;
     }
 }
+.p-scrolltop.p-link {
+    background: var(--main-bg-color)!important;
+}
+.p-scrolltop {
+    position: fixed;
+    bottom: 20px;
+    right: 50%!important;
+    transform: translate(0,-50%)!important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
