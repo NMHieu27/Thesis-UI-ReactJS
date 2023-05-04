@@ -2,7 +2,7 @@ import React from 'react';
 import { Form } from 'react-bootstrap';
 import { Message } from 'primereact/message';
 
-const InputItem = React.forwardRef(({ label, type, value, setValue, name, placeholder = '', error = null, pattern = null }, ref) => {
+const InputItem = React.forwardRef(({ label, type, value, setValue, name, placeholder = '', error = null, pattern = null, ...props }, ref) => {
    let isValid = true;
     if(pattern && value) {
        isValid = new RegExp(pattern).test(value);
@@ -12,7 +12,7 @@ const InputItem = React.forwardRef(({ label, type, value, setValue, name, placeh
         return (
             <Form.Group className="mb-3" controlId={name}>
                 <Form.Label>{label}</Form.Label>
-                <Form.Control type="file" ref={ref} onChange={setValue} className="form-control-lg"/>
+                <Form.Control type="file" ref={ref} onChange={setValue} className="form-control-lg" {...props}/>
             </Form.Group>
         );
 
@@ -27,6 +27,7 @@ const InputItem = React.forwardRef(({ label, type, value, setValue, name, placeh
                 name={name}
                 onChange={setValue}
                 placeholder={placeholder}
+                {...props}
             />
         {!isValid && <Message className='mt-2' severity="error" text={error} />}
         </Form.Group>

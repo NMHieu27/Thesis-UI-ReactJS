@@ -8,6 +8,9 @@
     "nav-sign-up":"Sign Up",
     "nav-sign-in":"Sign In",
     "nav-sign-out":"Sign Out",
+    "nav-statistics":"Statistics",
+    "nav-grade-stat":"Grade statistics",
+    "nav-frequency-stat":"Frequency statistics",
 
     "__comment2__": "FOOTER",
 

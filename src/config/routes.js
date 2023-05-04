@@ -19,5 +19,8 @@ const routes = {
     addThesis: '/academic-admin/them-khoa-luan',
     editThesis: '/academic-admin/cap-nhat-khoa-luan/:thesisID',
 
+    // Statistics routes
+    gradeStat:'/statistics/thong-ke-diem-khoa-luan',
+    frequencyStat:'/statistics/thong-ke-tan-suat-tham-gia-khoa-luan'
 };
 export default routes;

@@ -1,4 +1,4 @@
-import { Button, Container, Dropdown, Modal, Nav, Navbar, Offcanvas } from 'react-bootstrap';
+import { Button, Container, Dropdown, Modal, Nav, NavDropdown, Navbar, Offcanvas } from 'react-bootstrap';
 import './Header.scss';
 import { Link, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -19,11 +19,10 @@ function Header() {
     const { t } = useTranslation();
     const handleSignOut = () => {
         dispatch(logout());
-        try{
+        try {
             signOut(auth);
-        }
-        catch{
-            toast.error("loi firebase");
+        } catch {
+            toast.error('loi firebase');
         }
         nav(config.routes.singin);
     };
@@ -56,7 +55,10 @@ function Header() {
                                 <MyNavLink link={config.routes.users}>{t('nav-accounts')}</MyNavLink>
                                 <MyNavLink link={config.routes.theses}>{t('nav-theses')}</MyNavLink>
                                 <MyNavLink link={'#3'}>{t('nav-contact')}</MyNavLink>
-                                <MyNavLink link={config.routes.register}>{t('nav-sign-up')}</MyNavLink>
+                                <NavDropdown title={t('nav-statistics')} id="nav-dropdown">
+                                    <Link className='dropdown-item' to={config.routes.gradeStat}>{t('nav-grade-stat')}</Link>
+                                    <Link className='dropdown-item' to={config.routes.frequencyStat}>{t('nav-frequency-stat')}</Link>
+                                </NavDropdown>
                                 {!isAuthenticated && (
                                     <MyNavLink link={config.routes.singin}>{t('nav-sign-in')}</MyNavLink>
                                 )}

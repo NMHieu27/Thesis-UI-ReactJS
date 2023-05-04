@@ -15,7 +15,7 @@ import { majorData } from '~/fakedata/major';
 import { roleData } from '~/fakedata/role';
 import { Dropdown } from 'primereact/dropdown';
 import ButtonSubmit from '~/components/Form/ButtonSubmit/ButtonSubmit';
-function Signup() {
+function AddUser() {
     const [user, setUser] = useState({
         firstName: '',
         lastName: '',
@@ -233,4 +233,4 @@ function Signup() {
         </Helmet>
     );
 }
-export default Signup;
+export default AddUser;
