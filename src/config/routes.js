@@ -19,6 +19,14 @@ const routes = {
     addThesis: '/academic-admin/them-khoa-luan',
     editThesis: '/academic-admin/cap-nhat-khoa-luan/:thesisID',
 
+    // Teacher routes
+    evaluation: '/teacher/danh-sach-khoa-luan-cham-diem',
+    evaluationThesis: '/teacher/danh-sach-khoa-luan-cham-diem/khoa-luan/:thesisID',
+
+    // Student routes
+    studentTheses:'/student/danh-sach-khoa-luan',
+    studentThesisDetail:'/student/danh-sach-khoa-luan/khoa-luan/:thesisID',
+
     // Statistics routes
     gradeStat:'/statistics/thong-ke-diem-khoa-luan',
     frequencyStat:'/statistics/thong-ke-tan-suat-tham-gia-khoa-luan'

@@ -54,7 +54,7 @@ function Header() {
                                 <MyNavLink link={config.routes.councils}>{t('nav-councils')}</MyNavLink>
                                 <MyNavLink link={config.routes.users}>{t('nav-accounts')}</MyNavLink>
                                 <MyNavLink link={config.routes.theses}>{t('nav-theses')}</MyNavLink>
-                                <MyNavLink link={'#3'}>{t('nav-contact')}</MyNavLink>
+                                <MyNavLink link={config.routes.evaluation}>{t('nav-evaluation')}</MyNavLink>
                                 <NavDropdown title={t('nav-statistics')} id="nav-dropdown">
                                     <Link className='dropdown-item' to={config.routes.gradeStat}>{t('nav-grade-stat')}</Link>
                                     <Link className='dropdown-item' to={config.routes.frequencyStat}>{t('nav-frequency-stat')}</Link>

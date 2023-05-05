@@ -13,6 +13,8 @@ import Signin from '~/pages/Auth/Signin/Signin';
 import Home from '~/pages/Home/Home';
 import FrequencyStat from '~/pages/Statistics/FrequencyStat/FrequencyStat';
 import GradeStat from '~/pages/Statistics/GradeStat/GradeStat';
+import EditEvaluation from '~/pages/Teacher/EditEvaluation/EditEvaluation';
+import ThesisEvaluation from '~/pages/Teacher/ThesisEvaluation/ThesisEvaluation';
 
 // Public Routes
 const publicRoutes = [{ path: config.routes.home, component: Home, layout: DefaultLayout }];
@@ -38,10 +40,15 @@ const academicAdminRoutes = [
     { path: config.routes.editThesis, component: EditThesis, layout: DefaultLayout },
 ];
 
+const teacherRoutes = [
+    { path: config.routes.evaluation, component: ThesisEvaluation, layout: DefaultLayout },
+    {path: config.routes.evaluationThesis, component:EditEvaluation, layout: DefaultLayout },
+];
+
 // Statistics Routes
 const statisticsRoutes = [
     { path: config.routes.gradeStat, component: GradeStat, layout: DefaultLayout },
     { path: config.routes.frequencyStat, component: FrequencyStat, layout: DefaultLayout },
 ];
 
-export { authRoutes, publicRoutes, privateRoutes, academicAdminRoutes, statisticsRoutes };
+export { authRoutes, publicRoutes, privateRoutes, academicAdminRoutes, statisticsRoutes, teacherRoutes };
