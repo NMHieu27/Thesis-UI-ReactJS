@@ -11,7 +11,7 @@ function ThesisCard({ data, type }) {
         images.cardPic3,
         images.cardPic4,
         images.cardPic5,
-        images.cardPic6
+        images.cardPic6,
     ];
     return (
         <Col md={3} xs={12} key={data.id} className="p-2">
@@ -20,13 +20,33 @@ function ThesisCard({ data, type }) {
                 <Card.Body>
                     <Card.Title>{data.name}</Card.Title>
                     {type === 'studentThesis' ? (
-                        <Link to={url} className="btn">
-                            Xem chi tiết
-                        </Link>
+                        <>
+                        <p style={{fontWeight:'bold'}}>Trạng thái: <span className={data.status === 0 ? 'text-danger' : 'text-success'}>{data.status === 0 ? 'Chưa chấm' : 'Đã chấm'}</span></p>
+                            <div className="text-end">
+                                <Link to={url} className="btn" style={{background:'var(--main-bg-color)', color:'white'}}>
+                                    Xem chi tiết
+                                </Link>
+                            </div>
+                        </>
                     ) : (
-                        <Link to={url} className="btn">
-                            Chấm điểm
-                        </Link>
+                        <>
+                            <span style={{ color: 'var(--main-bg-color)', fontWeight: 'bold' }}>Sinh viên:</span>
+                            {data.students.map((member, index) => (
+                                <div key={index} className="d-flex align-items-center m-4">
+                                    <img
+                                        src={member.img}
+                                        alt={member.last_name + ' ' + member.first_name}
+                                        style={{ width: 40, height: 40, borderRadius: '50%', marginRight: 8 }}
+                                    />
+                                    <p style={{ marginBottom: '0' }}>{member.last_name + ' ' + member.first_name}</p>
+                                </div>
+                            ))}
+                            <div className="text-end">
+                                <Link to={url} className="btn" style={{background:'var(--main-bg-color)', color:'white'}}>
+                                    Chấm điểm
+                                </Link>
+                            </div>
+                        </>
                     )}
                 </Card.Body>
             </Card>
