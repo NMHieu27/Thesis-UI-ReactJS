@@ -10,6 +10,7 @@ import AddUser from '~/pages/Admin/UserManagement/AddUser/AddUser';
 import EditUser from '~/pages/Admin/UserManagement/EditUser/EditUser';
 import Users from '~/pages/Admin/UserManagement/Users/Users';
 import Signin from '~/pages/Auth/Signin/Signin';
+import ChangePassword from '~/pages/Client/ChangePassword/ChangePassword';
 import Home from '~/pages/Home/Home';
 import FrequencyStat from '~/pages/Statistics/FrequencyStat/FrequencyStat';
 import GradeStat from '~/pages/Statistics/GradeStat/GradeStat';
@@ -19,7 +20,10 @@ import EditEvaluation from '~/pages/Teacher/EditEvaluation/EditEvaluation';
 import ThesisEvaluation from '~/pages/Teacher/ThesisEvaluation/ThesisEvaluation';
 
 // Public Routes
-const publicRoutes = [{ path: config.routes.home, component: Home, layout: DefaultLayout }];
+const publicRoutes = [
+    { path: config.routes.home, component: Home, layout: DefaultLayout },
+    { path: config.routes.changePassword, component: ChangePassword, layout: DefaultLayout },
+];
 // Private Routes (Admin routes)
 const privateRoutes = [
     // Users
@@ -45,14 +49,14 @@ const academicAdminRoutes = [
 // Teacher routes
 const teacherRoutes = [
     { path: config.routes.evaluation, component: ThesisEvaluation, layout: DefaultLayout },
-    {path: config.routes.evaluationThesis, component:EditEvaluation, layout: DefaultLayout },
+    { path: config.routes.evaluationThesis, component: EditEvaluation, layout: DefaultLayout },
 ];
 
 // Student routes
 const studentRoutes = [
-    {path:config.routes.studentTheses, component:MyTheses, layout: DefaultLayout},
-    {path:config.routes.studentThesisDetail, component:MyThesisDetail, layout: DefaultLayout}
-]
+    { path: config.routes.studentTheses, component: MyTheses, layout: DefaultLayout },
+    { path: config.routes.studentThesisDetail, component: MyThesisDetail, layout: DefaultLayout },
+];
 
 // Statistics Routes
 const statisticsRoutes = [
@@ -60,4 +64,4 @@ const statisticsRoutes = [
     { path: config.routes.frequencyStat, component: FrequencyStat, layout: DefaultLayout },
 ];
 
-export { authRoutes, publicRoutes, privateRoutes, academicAdminRoutes, statisticsRoutes, teacherRoutes , studentRoutes};
+export { authRoutes, publicRoutes, privateRoutes, academicAdminRoutes, statisticsRoutes, teacherRoutes, studentRoutes };

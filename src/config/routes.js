@@ -1,6 +1,7 @@
 const routes = {
     // Client routes
     home: '/', 
+    changePassword: '/tai-khoan/doi-mat-khau',
 
     // Admin routes
     users: '/admin/danh-sach-tai-khoan', 
@@ -29,6 +30,9 @@ const routes = {
 
     // Statistics routes
     gradeStat:'/statistics/thong-ke-diem-khoa-luan',
-    frequencyStat:'/statistics/thong-ke-tan-suat-tham-gia-khoa-luan'
+    frequencyStat:'/statistics/thong-ke-tan-suat-tham-gia-khoa-luan',
+
+    // Unauthorized route
+    unauthorized: '/unauthorized',
 };
 export default routes;

@@ -11,6 +11,8 @@ import "primereact/resources/primereact.min.css";
 import 'moment-timezone';
 import moment from 'moment';
 import 'moment/locale/vi';
+import config from './config';
+import PageUnauthorized from './pages/PageUnauthorized/PageUnauthorized';
 moment().local('vi');
 function App() {
     return (
@@ -72,6 +74,8 @@ function App() {
                             </Route>
                             {/* Page not found */}
                             <Route path="*" element={<Page404 />} />
+                            {/* Page unauthorized routes */}
+                            <Route path={config.routes.unauthorized} element={<PageUnauthorized />} />
                         </Routes>
                     </div>
                 </Router>

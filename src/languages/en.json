@@ -1,23 +1,31 @@
 {
     "__comment1__": "NAV BAR",
-    "nav-home":"Home",
-    "nav-my-theses":"My theses",
-    "nav-councils":"Councils",
-    "nav-accounts":"Accounts",
-    "nav-theses":"Theses",
-    "nav-evaluation":"Thesis Evaluation",
-    "nav-sign-up":"Sign Up",
-    "nav-sign-in":"Sign In",
-    "nav-sign-out":"Sign Out",
-    "nav-statistics":"Statistics",
-    "nav-grade-stat":"Grade statistics",
-    "nav-frequency-stat":"Frequency statistics",
+    "nav-home": "Home",
+    "nav-my-theses": "My theses",
+    "nav-councils": "Councils",
+    "nav-accounts": "Accounts",
+    "nav-theses": "Theses",
+    "nav-evaluation": "Thesis Evaluation",
+    "nav-sign-up": "Sign Up",
+    "nav-sign-in": "Sign In",
+    "nav-sign-out": "Sign Out",
+    "nav-statistics": "Statistics",
+    "nav-grade-stat": "Grade statistics",
+    "nav-frequency-stat": "Frequency statistics",
 
     "__comment2__": "FOOTER",
-
 
     "__comment3__": "HOMPAGE",
     "homepage-intro-title": "The system for managing graduation thesis",
     "homepage-intro-content": "Welcome to the Graduation Thesis Management website! We provide a comprehensive online platform to assist students, faculty members, and thesis advisors in managing, monitoring, and evaluating the progress and results of graduation theses.",
-    "homepage-intro-detail":"More →"
+    "homepage-intro-detail": "More →",
+
+    "__comment4__": "404",
+    "404-content": "Page not found, someone is playing tricks or hiding the page you're looking for.",
+    "404-btn": "Go to home",
+
+    "__comment5__": "403",
+    "unauthorized-content":"Access denied! Please return to the homepage or try logging in with another account.",
+    "unauthorized-btn-go-home":"Go to home",
+    "unauthorized-btn-sign-in":"Sign in"
 }

@@ -21,7 +21,7 @@ function ThesisManagement() {
         mark: { value: null, matchMode: FilterMatchMode.EQUALS },
         created_date: { value: null, matchMode: FilterMatchMode.CONTAINS },
         'major.name': { value: null, matchMode: FilterMatchMode.CONTAINS },
-        'criteriaForm.name': { value: null, matchMode: FilterMatchMode.CONTAINS }
+        'criteriaForm.name': { value: null, matchMode: FilterMatchMode.CONTAINS },
     });
     useEffect(() => {
         // Call API get theses
@@ -74,6 +74,9 @@ function ThesisManagement() {
                 </Link>
                 <Button variant="danger" onClick={() => handleDeleteThesis(rowData.id)}>
                     <i className="fa-solid fa-trash"></i>
+                </Button>
+                <Button variant="secondary" onClick={() => handleDeleteThesis(rowData.id)}>
+                    <i className="fa-solid fa-file-pdf"></i>
                 </Button>
             </div>
         );
@@ -137,7 +140,12 @@ function ThesisManagement() {
                             body={(rowData) => rowData.criteriaForm.name}
                             sortable
                         ></Column>
-                        <Column field='council.id' header="Council" body={(rowData) => `Hội đồng ${rowData.council.id}`} sortable></Column>
+                        <Column
+                            field="council.id"
+                            header="Council"
+                            body={(rowData) => `Hội đồng ${rowData.council.id}`}
+                            sortable
+                        ></Column>
                         <Column
                             field="mark"
                             header="Mark"

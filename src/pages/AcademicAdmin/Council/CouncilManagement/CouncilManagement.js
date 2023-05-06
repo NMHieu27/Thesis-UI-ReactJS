@@ -29,8 +29,18 @@ function CouncilManagement() {
         setCouncils(councilData);
     }, []);
     const handleDeleteCouncil = (id) => {
-        if (window.confirm('Do you want to delete this record?')) {
+        if (window.confirm('Do you want to delete this council?')) {
             // Call API delete
+        }
+    };
+    const handleBlockCouncil = (id) => {
+        if (window.confirm('Do you want to block this council?')) {
+            // Call API block council
+        }
+    };
+    const handleUnBlockCouncil = (id) => {
+        if (window.confirm('Do you want to unblock this council?')) {
+            // Call API unblock council
         }
     };
     // Render
@@ -88,6 +98,15 @@ function CouncilManagement() {
                 <Button variant="danger" onClick={() => handleDeleteCouncil(rowData.id)}>
                     <i className="fa-solid fa-trash"></i>
                 </Button>
+                {rowData.status === 0 ? (
+                    <Button variant="warning" onClick={() => handleUnBlockCouncil(rowData.id)}>
+                        <i className="fa-solid fa-lock-open"></i>
+                    </Button>
+                ) : (
+                    <Button variant="warning" onClick={() => handleBlockCouncil(rowData.id)}>
+                        <i className="fa-solid fa-lock"></i>
+                    </Button>
+                )}
             </div>
         );
     };

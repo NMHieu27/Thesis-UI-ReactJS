@@ -57,8 +57,12 @@ function Header() {
                                 <MyNavLink link={config.routes.theses}>{t('nav-theses')}</MyNavLink>
                                 <MyNavLink link={config.routes.evaluation}>{t('nav-evaluation')}</MyNavLink>
                                 <NavDropdown title={t('nav-statistics')} id="nav-dropdown">
-                                    <Link className='dropdown-item' to={config.routes.gradeStat}>{t('nav-grade-stat')}</Link>
-                                    <Link className='dropdown-item' to={config.routes.frequencyStat}>{t('nav-frequency-stat')}</Link>
+                                    <Link className="dropdown-item" to={config.routes.gradeStat}>
+                                        {t('nav-grade-stat')}
+                                    </Link>
+                                    <Link className="dropdown-item" to={config.routes.frequencyStat}>
+                                        {t('nav-frequency-stat')}
+                                    </Link>
                                 </NavDropdown>
                                 {!isAuthenticated && (
                                     <MyNavLink link={config.routes.singin}>{t('nav-sign-in')}</MyNavLink>
@@ -77,8 +81,10 @@ function Header() {
                                         </Dropdown.Toggle>
                                         <Dropdown.Menu>
                                             <Dropdown.Item href="#/action-1">Hi, {user['first_name']}</Dropdown.Item>
-                                            <Dropdown.Item href="#/action-2">Sửa thông tin</Dropdown.Item>
-                                            <Dropdown.Item href="#/action-2">Đổi mật khẩu</Dropdown.Item>
+                                            <Link className="dropdown-item" to={config.routes.changePassword}>
+                                                Đổi mật khẩu
+                                            </Link>
+
                                             <Dropdown.Divider />
                                             <Dropdown.Item onClick={handleSignOut}>{t('nav-sign-out')}</Dropdown.Item>
                                         </Dropdown.Menu>
