@@ -73,7 +73,7 @@ export const myThesisDetailData = [
         },
         council: {
             id: 1,
-            chainman: {
+            chairman: {
                 id: 4,
                 first_name: 'Thành',
                 last_name: 'Dương Hữu',
@@ -191,7 +191,7 @@ export const myThesisDetailData = [
         },
         council: {
             id: 3,
-            chainman: {
+            chairman: {
                 id: 5,
                 first_name: 'Anh',
                 last_name: 'Nguyễn Thị Kim',

@@ -41,9 +41,9 @@ function Signin() {
                 const params = {
                     username: username,
                     password: password,
-                    client_id: 'CshxXj0PHnLcCkwtGSZWxPJc7G2lEA2iNjE9ISJc',
+                    client_id: 'ldVc33Mu19cVCjmK2wkKWlMz15d18AptsB03Ze4b',
                     client_secret:
-                        '5LMYy3tSWofUxcRGj7qNRSgyYe7WZtmXWCMuVtVrYAJRITuA5TqpvRAw7bKpRqK8sRdJEoybnVhjtvt0DiLqSKOusqpffw8xLaYoupGKDIY47nDF0hfc3EB69SVMZbBI',
+                        'VzRPNoygOwmo33qWThb6NLql1k3ELsnh65VJyUjVxBo23gwqSVlkXZeNeEzzGaFiTrMTdtSj6eDlcPJ5TB7efCM5uIlqnIHnlixCnaswBFiR5PnvoZHwtWyjhsC8Yu8o',
                     grant_type: 'password',
                 };
                 let res = await authAPI.signIn(params);
@@ -52,6 +52,7 @@ function Signin() {
                 if (localStorage.getItem('access-token')) {
                     let user = await authAPI.currentUser();
                     localStorage.setItem('current-user', JSON.stringify(user.data));
+                    console.log(user.data);
                     await signInWithEmailAndPassword(auth, user.data.email, password);
                     toast.success('Đăng nhập thành công');
                     dispatch(loginSuccess(user.data));

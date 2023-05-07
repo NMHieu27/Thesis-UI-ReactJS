@@ -13,7 +13,7 @@ function EditCouncil() {
     const { councilID } = useParams();
     const [teachers, setTeachers] = useState();
     const [council, setCouncil] = useState();
-    const [selectedChainman, setSelectedChainman] = useState(null);
+    const [selectedChairman, setSelectedChairman] = useState(null);
     const [selectedSecretary, setSelectedSecretary] = useState(null);
     const [selectedAssessor, setSelectedAssessor] = useState(null);
     const [selectedMembers, setSelectedMembers] = useState(null);
@@ -26,7 +26,7 @@ function EditCouncil() {
         setTeachers(teacherData);
     }, []);
     useEffect(() => {
-        setSelectedChainman(council?.chainman);
+        setSelectedChairman(council?.chairman);
         setSelectedSecretary(council?.secretary);
         setSelectedAssessor(council?.assessor);
         setSelectedMembers(council?.members)
@@ -37,7 +37,7 @@ function EditCouncil() {
     const editCouncil = (evt) => {
         evt.preventDefault();
         const param = {
-            chainman: selectedChainman,
+            chairman: selectedChairman,
             secretary: selectedSecretary,
             assessor: selectedAssessor,
             members: selectedMembers,
@@ -56,10 +56,10 @@ function EditCouncil() {
                     <Form onSubmit={editCouncil}>
                         <Form.Label>Chủ tịch hội đồng</Form.Label>
                         <div className="card mb-3">
-                            {selectedChainman && <SelectMember
+                            {selectedChairman && <SelectMember
                                 data={teachers}
-                                selected={selectedChainman}
-                                setSelected={setSelectedChainman}
+                                selected={selectedChairman}
+                                setSelected={setSelectedChairman}
                                 placeholder={'Chọn chủ tịch hội đồng'}
                             />}
                         </div>

@@ -1,7 +1,7 @@
 const councilData = [
     {
         id: 1,
-        chainman: {
+        chairman: {
             id: 4,
             first_name: 'Thành',
             last_name: 'Dương Hữu',
@@ -43,7 +43,7 @@ const councilData = [
     },
     {
         id: 2,
-        chainman: {
+        chairman: {
             id: 6,
             first_name: 'Hồng Tuyết',
             last_name: 'Võ Thị',
@@ -85,7 +85,7 @@ const councilData = [
     },
     {
         id: 3,
-        chainman: {
+        chairman: {
             id: 5,
             first_name: 'Anh',
             last_name: 'Nguyễn Thị Kim',

@@ -8,7 +8,7 @@ import SelectMember from '../SelectMember';
 
 function AddCouncil() {
     const [teachers, setTeachers] = useState();
-    const [selectedChainman, setSelectedChainman] = useState(null);
+    const [selectedChairman, setSelectedChairman] = useState(null);
     const [selectedSecretary, setSelectedSecretary] = useState(null);
     const [selectedAssessor, setSelectedAssessor] = useState(null);
     const [selectedMembers, setSelectedMembers] = useState(null);
@@ -23,7 +23,7 @@ function AddCouncil() {
     const addCouncil = (evt) => {
         evt.preventDefault();
         const param ={
-            chainman: selectedChainman,
+            chairman: selectedChairman,
             secretary: selectedSecretary,
             assessor: selectedAssessor,
             members: selectedMembers,
@@ -43,8 +43,8 @@ function AddCouncil() {
                         <div className="card mb-3">
                             <SelectMember
                                 data={teachers}
-                                selected={selectedChainman}
-                                setSelected={setSelectedChainman}
+                                selected={selectedChairman}
+                                setSelected={setSelectedChairman}
                                 placeholder={'Chọn chủ tịch hội đồng'}
                             />
                         </div>

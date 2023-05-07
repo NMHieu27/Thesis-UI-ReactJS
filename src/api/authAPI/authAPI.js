@@ -5,7 +5,6 @@ import axiosClient from "../axiosClient";
 const authAPI = {
     signIn: (params) => {
         const url = '/o/token/';
-        console.log(process.env.REACT_APP_BASE_URL);
         return axiosClient.post(url, params);
     },
     signUp: (params) => {
@@ -13,7 +12,7 @@ const authAPI = {
         return axiosClient.post(url, params);
     },
     currentUser: ()=>{
-        const url = "/users/current-user/";
+        const url = "/users/current_user/";
         return axiosAuth().get(url);
     }
 };

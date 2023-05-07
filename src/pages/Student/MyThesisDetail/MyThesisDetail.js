@@ -79,7 +79,7 @@ function MyThesisDetail() {
                                             <span className="my-thesis-label">Chủ tịch hội đồng </span>
                                         </p>
                                         <div className="m-4">
-                                            <Info data={myThesisDetail.council.chainman} />
+                                            <Info data={myThesisDetail.council.chairman} />
                                         </div>
                                         <p>
                                             <span className="my-thesis-label">Thư kí </span>

@@ -15,6 +15,8 @@ import { majorData } from '~/fakedata/major';
 import { roleData } from '~/fakedata/role';
 import { Dropdown } from 'primereact/dropdown';
 import ButtonSubmit from '~/components/Form/ButtonSubmit/ButtonSubmit';
+import roleAPI from '~/api/roleAPI/roleAPI';
+import majorAPI from '~/api/majorAPI/majorAPI';
 function AddUser() {
     const [user, setUser] = useState({
         firstName: '',
@@ -23,11 +25,11 @@ function AddUser() {
         email: '',
         password: '',
         confirmPassword: '',
-        role: '',
-        major: '',
+        role: null,
+        major: null,
     });
-    const [majors, setMajors] = useState();
-    const [roles, setRoles] = useState();
+    const [majors, setMajors] = useState(null);
+    const [roles, setRoles] = useState(null);
     const [img, setImg] = useState(null);
     const avatar = useRef();
     const [loading, setLoading] = useState(false);
@@ -36,10 +38,30 @@ function AddUser() {
 
     useEffect(() => {
         // Call api here
-        //
-        setMajors(majorData);
-        setRoles(roleData);
+        const fetchRoles = async () => {
+            try {
+                let res = await roleAPI.getRoles();
+                setRoles(res.data);
+            } catch (err) {
+                toast.error('Có lỗi khi load danh sách role');
+            }
+        };
+        fetchRoles();
     }, []);
+    useEffect(() => {
+        // Call api here
+        const fetchMajors = async () => {
+            try {
+                const res = await majorAPI.getMajors();
+                setMajors(res.data);
+            } catch (err) {
+                toast.error('Có lỗi khi load danh sách major');
+            }
+        };
+        fetchMajors();
+    }, []);
+    console.log(majors);
+    console.log(roles);
     const register = (evt) => {
         evt.preventDefault();
 
@@ -51,8 +73,8 @@ function AddUser() {
                 form.append('username', user.username);
                 form.append('email', user.email);
                 form.append('password', user.password);
-                form.append('role', user.role);
-                form.append('major',user.major);
+                form.append('role', user.role.id);
+                form.append('major', user.major.id);
                 if (avatar.current.files.length > 0) form.append('avatar', avatar.current.files[0]);
 
                 let res = await authAPI.signUp(form);
@@ -178,7 +200,7 @@ function AddUser() {
                                 />
                             </Col>
                         </Row>
-                        <Row>
+                        {roles && majors && <Row>
                             <Col xl={6} xs={12}>
                                 <Form.Label>Khoa</Form.Label>
                                 <div className="card mb-3">
@@ -205,7 +227,7 @@ function AddUser() {
                                     />
                                 </div>
                             </Col>
-                        </Row>
+                        </Row>}
                         <InputItem
                             label="Ảnh đại diện"
                             controlId="avatar"
@@ -225,7 +247,7 @@ function AddUser() {
                             )}
                         </div>
                         <div className="btn-signup-container text-center">
-                            <ButtonSubmit content='Đăng kí' loading={loading}/>
+                            <ButtonSubmit content="Đăng kí" loading={loading} />
                         </div>
                     </Form>
                 </div>

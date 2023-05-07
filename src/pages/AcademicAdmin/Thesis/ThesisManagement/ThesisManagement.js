@@ -6,6 +6,7 @@ import { Tag } from 'primereact/tag';
 import { useEffect, useState } from 'react';
 import { Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import Helmet from '~/components/Helmet/Helmet';
 import config from '~/config';
 import { thesesData } from '~/fakedata/theses';
@@ -32,6 +33,11 @@ function ThesisManagement() {
             // Call API delete
         }
     };
+    const handleExportEvaluationThesis = (status) => {
+        if(status === 0){
+            toast.error("Khóa luận chưa hoàn tất chấm điểm")
+        }
+    }
     const getSeverity = (council) => {
         switch (council.status) {
             case 0:
@@ -75,7 +81,7 @@ function ThesisManagement() {
                 <Button variant="danger" onClick={() => handleDeleteThesis(rowData.id)}>
                     <i className="fa-solid fa-trash"></i>
                 </Button>
-                <Button variant="secondary" onClick={() => handleDeleteThesis(rowData.id)}>
+                <Button variant="secondary" onClick={() => handleExportEvaluationThesis(rowData.status)}>
                     <i className="fa-solid fa-file-pdf"></i>
                 </Button>
             </div>

@@ -20,7 +20,7 @@ function CouncilManagement() {
         status: { value: null, matchMode: FilterMatchMode.EQUALS },
         created_at: { value: null, matchMode: FilterMatchMode.CONTAINS },
         'major.name': { value: null, matchMode: FilterMatchMode.CONTAINS },
-        'chainman.first_name': { value: null, matchMode: FilterMatchMode.CONTAINS },
+        'chairman.first_name': { value: null, matchMode: FilterMatchMode.CONTAINS },
         'secretary.first_name': { value: null, matchMode: FilterMatchMode.CONTAINS },
         'assessor.first_name': { value: null, matchMode: FilterMatchMode.CONTAINS },
     });
@@ -153,14 +153,14 @@ function CouncilManagement() {
                             'status',
                             'created_at',
                             'major.name',
-                            'chainman.first_name',
+                            'chairman.first_name',
                             'secretary.first_name',
                             'assessor.first_name',
                         ]}
                         emptyMessage="No councils found."
                     >
                         <Column field="id" header="ID" sortable></Column>
-                        <Column header="Chainman" body={(rowData) => renderMember(rowData, 'chainman')}></Column>
+                        <Column header="Chairman" body={(rowData) => renderMember(rowData, 'chairman')}></Column>
                         <Column header="Secretary" body={(rowData) => renderMember(rowData, 'secretary')}></Column>
                         <Column header="Assessor" body={(rowData) => renderMember(rowData, 'assessor')}></Column>
                         <Column header="Members" body={renderMembers}></Column>

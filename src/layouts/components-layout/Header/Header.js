@@ -72,7 +72,7 @@ function Header() {
                                     <Dropdown>
                                         <Dropdown.Toggle id="dropdown-basic" className="nav-avatar">
                                             <img
-                                                src={user.image}
+                                                src={user.avatar}
                                                 width="40"
                                                 height="40"
                                                 className="rounded-circle"
