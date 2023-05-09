@@ -41,9 +41,9 @@ function Signin() {
                 const params = {
                     username: username,
                     password: password,
-                    client_id: 'ldVc33Mu19cVCjmK2wkKWlMz15d18AptsB03Ze4b',
+                    client_id: '91GRg1kKAMzHNGqLtl1ia5neit8Sf4hWn2O4cIAq',
                     client_secret:
-                        'VzRPNoygOwmo33qWThb6NLql1k3ELsnh65VJyUjVxBo23gwqSVlkXZeNeEzzGaFiTrMTdtSj6eDlcPJ5TB7efCM5uIlqnIHnlixCnaswBFiR5PnvoZHwtWyjhsC8Yu8o',
+                        'X0BE1oiZVkECOKSECncfjVVoaH9JXeCFl6WX8ThzBcJxwjlJWEXVHs8vVpZMLWkgQiRbP3XGLwFOiqpxR83u9RhnBrzveXx8HB9X2u7nGUft6VmvqrtXvKeqP8vcjkiO',
                     grant_type: 'password',
                 };
                 let res = await authAPI.signIn(params);

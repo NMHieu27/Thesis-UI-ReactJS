@@ -2,7 +2,7 @@ import axiosClient from '../axiosClient';
 
 const roleAPI = {
     getRoles: () => {
-        const url = '/role/';
+        const url = '/roles/';
         return axiosClient.get(url);
     },
 };

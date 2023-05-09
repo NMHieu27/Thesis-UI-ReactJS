@@ -1,6 +1,8 @@
 {
     "__comment1__": "NAV BAR",
     "nav-home": "Home",
+    "nav-news":"News",
+    "nav-about":"About",
     "nav-my-theses": "My theses",
     "nav-councils": "Councils",
     "nav-accounts": "Accounts",

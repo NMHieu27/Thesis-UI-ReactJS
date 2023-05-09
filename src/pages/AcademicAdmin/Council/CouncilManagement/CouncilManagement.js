@@ -5,12 +5,14 @@ import { InputText } from 'primereact/inputtext';
 import { Tag } from 'primereact/tag';
 import { useEffect, useState } from 'react';
 import { Button } from 'react-bootstrap';
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import Helmet from '~/components/Helmet/Helmet';
 import config from '~/config';
 import councilData from '~/fakedata/council';
 
 function CouncilManagement() {
+    const majorID = useSelector(state => state.auth.user.major.id)
     const [councils, setCouncils] = useState();
     const [globalFilterValue, setGlobalFilterValue] = useState('');
     const [filters, setFilters] = useState({

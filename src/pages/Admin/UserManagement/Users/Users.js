@@ -12,10 +12,13 @@ import { FilterMatchMode } from 'primereact/api';
 import { Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import config from '~/config';
+import Image from '~/components/Image/Image';
+import { toast } from 'react-toastify';
+import userAPI from '~/api/userAPI/userAPI';
 function Users() {
-    const users = useSelector((state) => state.users.data);
-    const dispatch = useDispatch();
-    // const [users, setUsers] = useState();
+    // const users = useSelector((state) => state.users.data);
+    // const dispatch = useDispatch();
+    const [users, setUsers] = useState(null);
     const [globalFilterValue, setGlobalFilterValue] = useState('');
     const [filters, setFilters] = useState({
         global: { value: null, matchMode: FilterMatchMode.CONTAINS },
@@ -23,19 +26,29 @@ function Users() {
         username: { value: null, matchMode: FilterMatchMode.CONTAINS },
         first_name: { value: null, matchMode: FilterMatchMode.CONTAINS },
         last_name: { value: null, matchMode: FilterMatchMode.CONTAINS },
-        status: { value: null, matchMode: FilterMatchMode.CONTAINS },
+        // status: { value: null, matchMode: FilterMatchMode.CONTAINS },
         email: { value: null, matchMode: FilterMatchMode.CONTAINS },
         'role.name': { value: null, matchMode: FilterMatchMode.CONTAINS },
         'major.name': { value: null, matchMode: FilterMatchMode.CONTAINS },
     });
     useEffect(() => {
+        // Call API here
+        const fetchUsers = async () =>{
+            try{
+                const res = await userAPI.getUsers();
+                setUsers(res.data);
+            }catch{
+                toast.error("Có lỗi xảy ra!")
+            }
+        }
+        fetchUsers();
         // setUsers(users)
-        dispatch(fetchUsers(usersData));
+        // dispatch(fetchUsers(usersData));
     }, []);
 
     const handleDeleteUser = (id) => {
         if (window.confirm('Do you want to delete this record?')) {
-            dispatch(deleteUser(id));
+            
         }
     };
     // Render
@@ -51,16 +64,16 @@ function Users() {
         }
     };
     const imageBodyTemplate = (user) => {
-        return <img src={user.img} width="40" height="40" className="rounded-circle" alt="err" />;
+        return <Image src={user?.avatar} width="40" height="40" className="rounded-circle" alt="err" />;
     };
     const roleBodyTemplate = (user) => {
-        return user.role.name;
+        return user.role?.name;
     };
     const majorBodyTemplate = (user) => {
-        return user.major.name;
+        return user.major?.name;
     };
     const statusBodyTemplate = (user) => {
-        return <Tag value={user.status === 0 ? 'Khóa' : 'Không khóa'} severity={getSeverity(user)}></Tag>;
+        return <Tag value={user?.is_active === 0 ? 'Khóa' : 'Không khóa'} severity={getSeverity(user)}></Tag>;
     };
     const actionBodyTemplate = (rowData) => {
         return (
@@ -120,8 +133,8 @@ function Users() {
                             'last_name',
                             'status',
                             'email',
-                            'role.name',
-                            'major.name',
+                            'role?.name',
+                            'major?.name',
                         ]}
                         emptyMessage="No users found."
                     >
@@ -133,7 +146,7 @@ function Users() {
                         <Column field="email" header="Email" sortable></Column>
                         <Column body={roleBodyTemplate} header="Role"></Column>
                         <Column body={majorBodyTemplate} header="Major"></Column>
-                        <Column body={statusBodyTemplate} header="Status"></Column>
+                        {/* <Column body={statusBodyTemplate} header="Status"></Column> */}
                         <Column header="Action" body={actionBodyTemplate}></Column>
                     </DataTable>
                 </div>
