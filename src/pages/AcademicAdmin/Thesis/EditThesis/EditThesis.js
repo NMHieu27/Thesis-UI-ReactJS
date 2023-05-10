@@ -1,7 +1,14 @@
 import { Dropdown } from 'primereact/dropdown';
 import { useEffect, useState } from 'react';
 import { Form } from 'react-bootstrap';
-import { useParams } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { useNavigate, useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import councilAPI from '~/api/councilAPI/councilAPI';
+import criteriaAPI from '~/api/criteriaAPI/criteriaAPI';
+import studentAPI from '~/api/studentAPI/studentAPI';
+import teacherAPI from '~/api/teacherAPI/teacherAPI';
+import thesisAPI from '~/api/thesisAPI/thesisAPI';
 import ButtonSubmit from '~/components/Form/ButtonSubmit/ButtonSubmit';
 import InputItem from '~/components/Form/InputItem/InputItem';
 import Helmet from '~/components/Helmet/Helmet';
@@ -13,6 +20,8 @@ import teacherData from '~/fakedata/teacher';
 import { thesesData } from '~/fakedata/theses';
 
 function EditThesis() {
+    const nav = useNavigate();
+    const major = useSelector((state) => state.auth.user.major);
     const { thesisID } = useParams();
     const [thesis, setThesis] = useState(null);
     const [studentsFetch, setStudentsFetch] = useState(null);
@@ -28,15 +37,60 @@ function EditThesis() {
     const [loading, setLoading] = useState(false);
     useEffect(() => {
         // Call api get Thesis by id
-        setThesis(thesesData[thesisID - 1]);
+        const fetchThesisByID = async () => {
+            try {
+                const res = await thesisAPI.getThesisByID(thesisID);
+                setThesis(res.data);
+            } catch {
+                toast.error('Không thể lấy thông tin khóa luận');
+            }
+        };
+        // setThesis(thesesData[thesisID - 1]);
         // Call api get students
-        setStudentsFetch(studentsData);
+        const fetchStudents = async () => {
+            try {
+                const res = await studentAPI.getStudentsByMajorID(major.id);
+                setStudentsFetch(res.data);
+            } catch {
+                toast.error('Không thể lấy danh sách sinh viên');
+            }
+        };
+        // setStudentsFetch(studentsData);
         // Call api get teachers
-        setTeachersFetch(teacherData);
+        const fetchTeachers = async () => {
+            try {
+                const res = await teacherAPI.getTeachersByMajorID(major.id);
+                setTeachersFetch(res.data);
+            } catch (error) {
+                toast.error('Không thể lấy danh sách giảng viên');
+            }
+        };
+        // setTeachersFetch(teacherData);
         // Call api get councils
-        setCouncilFetch(councilData);
+        const fetchCouncils = async () => {
+            try {
+                const res = await councilAPI.getCouncilsByMajorID(major.id);
+                setCouncilFetch(res.data.councils);
+            } catch {
+                toast.error('Không thể lấy danh sách hội đồng');
+            }
+        };
+        // setCouncilFetch(councilData);
         // Call api get Criteria Form
-        setCriteriaFormFetch(criteriaFormData);
+        const fetchCriteriaForm = async () => {
+            try {
+                const res = await criteriaAPI.getCriterias();
+                setCriteriaFormFetch(res.data);
+            } catch (error) {
+                toast.error('Không thể lấy danh sách tiêu chí');
+            }
+        };
+        // setCriteriaFormFetch(criteriaFormData);
+        fetchThesisByID();
+        fetchStudents();
+        fetchTeachers();
+        fetchCouncils();
+        fetchCriteriaForm();
     }, []);
     useEffect(() => {
         setName(thesis?.name);
@@ -47,6 +101,8 @@ function EditThesis() {
         setStatus(thesis?.status);
     }, [thesis]);
 
+    console.log('council thesis:', thesis?.council);
+    console.log('council list:', councilFetch);
     const editThesis = (evt) => {
         evt.preventDefault();
         const param = {
@@ -55,10 +111,7 @@ function EditThesis() {
             teachers,
             council: council?.id,
             criteriaForm,
-            major: {
-                id: 1,
-                name: 'CNTT',
-            },
+            major,
             status,
             // Lưu ý major lấy từ thông tin giáo vụ khoa
         };

@@ -2,10 +2,10 @@ import axiosAuth from "../axiosAuth";
 import axiosClient from "../axiosClient";
 
 
-const userAPI = {
-    getUsers: ()=>{
-        const url = '/users/';
+const teacherAPI = {
+    getTeachersByMajorID:(id)=>{
+        const url = `/majors/${id}/teachers/`;
         return axiosAuth().get(url);
     }
 };
-export default userAPI;
+export default teacherAPI;

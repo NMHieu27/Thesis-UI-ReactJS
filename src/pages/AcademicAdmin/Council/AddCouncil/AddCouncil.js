@@ -1,34 +1,62 @@
 import { useEffect, useState } from 'react';
 import { Form } from 'react-bootstrap';
 import Helmet from '~/components/Helmet/Helmet';
-import teacherData from '~/fakedata/teacher';
 import ButtonSubmit from '~/components/Form/ButtonSubmit/ButtonSubmit';
 import MultiSelectUser from '~/components/MultiSelectUser/MultiSelectUser';
 import SelectMember from '../SelectMember';
+import teacherAPI from '~/api/teacherAPI/teacherAPI';
+import { useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
+import councilAPI from '~/api/councilAPI/councilAPI';
+import { useNavigate } from 'react-router-dom';
 
 function AddCouncil() {
+    const major = useSelector((state) => state.auth.user.major);
     const [teachers, setTeachers] = useState();
     const [selectedChairman, setSelectedChairman] = useState(null);
     const [selectedSecretary, setSelectedSecretary] = useState(null);
     const [selectedAssessor, setSelectedAssessor] = useState(null);
-    const [selectedMembers, setSelectedMembers] = useState(null);
+    const [selectedMembers, setSelectedMembers] = useState([]);
+    const nav = useNavigate();
 
     const [loading, setLoading] = useState(false);
     useEffect(() => {
         // Call api get teacher following the major
-        setTeachers(teacherData);
+        const fetchTeachers = async () => {
+            try {
+                const res = await teacherAPI.getTeachersByMajorID(major.id);
+                setTeachers(res.data);
+            } catch (error) {
+                toast.error('Không thể lấy danh sách giảng viên');
+            }
+        };
+        // setTeachers(teacherData);
+        fetchTeachers();
     }, []);
 
     // Call api add councill
     const addCouncil = (evt) => {
         evt.preventDefault();
-        const param ={
+        const param = {
             chairman: selectedChairman,
             secretary: selectedSecretary,
             assessor: selectedAssessor,
-            members: selectedMembers,
-        }
-        console.log(param)
+            members:selectedMembers,
+            major: major,
+        };
+
+        console.log(JSON.stringify(param));
+        const createCouncil = async () => {
+            try {
+                const res = await councilAPI.createCouncil(JSON.stringify(param));
+                console.log(res.data);
+                toast.success('Tạo hội đồng thành công!')
+                nav(-1);
+            } catch {
+                toast.error('Có lỗi xảy ra! Không thể tạo hội đồng');
+            }
+        };
+        createCouncil();
         // setLoading(true);
     };
     return (

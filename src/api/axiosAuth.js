@@ -7,7 +7,7 @@ const axiosAuth = () => axios.create({
         'Content-Type': 'application/json',
         Accept: 'application/json',
         Authorization: `Bearer ${localStorage.getItem('access-token')}`,
-        'content-type': 'multipart/form-data',
+        // 'content-type': 'multipart/form-data',
     },
     // paramsSerializer: (params) => queryString.stringify(params),
 });

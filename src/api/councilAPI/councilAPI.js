@@ -4,23 +4,23 @@ import axiosClient from '../axiosClient';
 const councilAPI = {
     getCouncilsByMajorID: (id) => {
         const url = `/majors/${id}/councils/`;
-        return axiosClient.get(url);
+        return axiosAuth().get(url);
     },
     createCouncil: (param) => {
         const url = '/councils/';
-        return axiosClient.post(url, param);
+        return axiosAuth().post(url, param);
     },
     getCouncilsByID: (id) => {
         const url = `/councils/${id}/`;
-        return axiosClient.get(url);
+        return axiosAuth().get(url);
     },
     updateCouncil: (id , param) => {
         const url = `/councils/${id}/`;
-        return axiosClient.put(url, param);
+        return axiosAuth().put(url, param);
     },
     deleteCouncil: (id , param) => {
         const url = `/councils/${id}/`;
-        return axiosClient.delete(url, param);
+        return axiosAuth().delete(url, param);
     }
 };
 export default councilAPI;

@@ -1,11 +1,12 @@
 import { Dropdown } from 'primereact/dropdown';
+import Image from '~/components/Image/Image';
 
 export default function SelectMember({ data, selected, setSelected, placeholder }) {
     const selectedTemplate = (option, props) => {
         if (option) {
             return (
                 <div className="d-flex align-items-center">
-                    <img alt={option.first_name} src={option.img} className="rounded" width={'40px'} height={'40px'} />
+                    <Image alt={option.first_name} src={option.avatar} className="rounded" width={'40px'} height={'40px'} />
                     <div style={{ marginLeft: '15px' }}>{option.last_name + ' ' + option.first_name}</div>
                 </div>
             );
@@ -17,7 +18,7 @@ export default function SelectMember({ data, selected, setSelected, placeholder 
     const optionTemplate = (option) => {
         return (
             <div className="d-flex align-items-center">
-                <img alt={option.first_name} src={option.img} className="rounded" width={'40px'} height={'40px'} />
+                <Image alt={option.first_name} src={option.avatar} className="rounded" width={'40px'} height={'40px'} />
                 <div style={{ marginLeft: '15px' }}>{option.last_name + ' ' + option.first_name}</div>
             </div>
         );

@@ -1,9 +1,10 @@
+import axiosAuth from '../axiosAuth';
 import axiosClient from '../axiosClient';
 
 const majorAPI = {
     getMajors: () => {
         const url = '/majors/';
-        return axiosClient.get(url);
+        return axiosAuth().get(url);
     },
 };
 export default majorAPI;

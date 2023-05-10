@@ -5,22 +5,26 @@ import { InputText } from 'primereact/inputtext';
 import { Tag } from 'primereact/tag';
 import { useEffect, useState } from 'react';
 import { Button } from 'react-bootstrap';
+import Moment from 'react-moment';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import councilAPI from '~/api/councilAPI/councilAPI';
 import Helmet from '~/components/Helmet/Helmet';
 import config from '~/config';
 import councilData from '~/fakedata/council';
 
 function CouncilManagement() {
-    const majorID = useSelector(state => state.auth.user.major.id)
-    const [councils, setCouncils] = useState();
+    const majorID = useSelector(state => state.auth.user.major.id);
+    const [isDelete, setIsDelete] = useState(false);
+    const [councils, setCouncils] = useState(null);
     const [globalFilterValue, setGlobalFilterValue] = useState('');
     const [filters, setFilters] = useState({
         global: { value: null, matchMode: FilterMatchMode.CONTAINS },
         id: { value: null, matchMode: FilterMatchMode.EQUALS },
         thesis_count: { value: null, matchMode: FilterMatchMode.EQUALS },
-        status: { value: null, matchMode: FilterMatchMode.EQUALS },
-        created_at: { value: null, matchMode: FilterMatchMode.CONTAINS },
+        active: { value: null, matchMode: FilterMatchMode.EQUALS },
+        created_date: { value: null, matchMode: FilterMatchMode.CONTAINS },
         'major.name': { value: null, matchMode: FilterMatchMode.CONTAINS },
         'chairman.first_name': { value: null, matchMode: FilterMatchMode.CONTAINS },
         'secretary.first_name': { value: null, matchMode: FilterMatchMode.CONTAINS },
@@ -28,11 +32,29 @@ function CouncilManagement() {
     });
     useEffect(() => {
         // Call API get councils
-        setCouncils(councilData);
-    }, []);
-    const handleDeleteCouncil = (id) => {
+        const fetchCouncils = async () =>{
+            try{
+                const res = await councilAPI.getCouncilsByMajorID(majorID);
+                setCouncils(res.data.councils);
+            }
+            catch{
+                toast.error('Không thể lấy danh sách hội đồng')
+            }
+        }
+        // setCouncils(councilData);
+        fetchCouncils();
+    }, [isDelete]);
+    const handleDeleteCouncil = async (id) => {
         if (window.confirm('Do you want to delete this council?')) {
             // Call API delete
+            try{
+                const res = await councilAPI.deleteCouncil(id);
+                toast.success('Xóa hội đồng thành công');
+                setIsDelete(!isDelete);
+            }
+            catch{
+                toast.error('Xóa hội đồng thất bại');
+            }
         }
     };
     const handleBlockCouncil = (id) => {
@@ -47,43 +69,43 @@ function CouncilManagement() {
     };
     // Render
     const getSeverity = (council) => {
-        switch (council.status) {
-            case 0:
+        switch (council.active) {
+            case false:
                 return 'danger';
 
-            case 1:
+            case true:
                 return 'success';
             default:
                 return null;
         }
     };
-    const statusBodyTemplate = (council) => {
-        return <Tag value={council.status === 0 ? 'Đóng' : 'Mở'} severity={getSeverity(council)}></Tag>;
+    const activeBodyTemplate = (council) => {
+        return <Tag value={council.active === false ? 'Đóng' : 'Mở'} severity={getSeverity(council)}></Tag>;
     };
     const renderMember = (rowData, field) => {
         return (
             <div className="text-center">
                 <img
-                    src={rowData[field].img}
-                    alt={rowData[field].last_name + ' ' + rowData[field].first_name}
+                    src={rowData[field]?.avatar}
+                    alt={rowData[field]?.last_name + ' ' + rowData[field]?.first_name}
                     style={{ width: 40, height: 40, borderRadius: '50%', marginRight: 8 }}
                 />
-                <p>{rowData[field].last_name + ' ' + rowData[field].first_name}</p>
+                <p>{rowData[field]?.last_name + ' ' + rowData[field]?.first_name}</p>
             </div>
         );
     };
     const renderMembers = (rowData) => {
         return (
             <>
-                {rowData.members &&
+                {rowData?.members &&
                     rowData.members.map((member, index) => (
                         <div key={index} className="text-center">
                             <img
-                                src={member.img}
-                                alt={member.last_name + ' ' + member.first_name}
+                                src={member?.avatar}
+                                alt={member?.last_name + ' ' + member?.first_name}
                                 style={{ width: 40, height: 40, borderRadius: '50%', marginRight: 8 }}
                             />
-                            <p>{member.last_name + ' ' + member.first_name}</p>
+                            <p>{member?.last_name + ' ' + member?.first_name}</p>
                         </div>
                     ))}
             </>
@@ -100,7 +122,7 @@ function CouncilManagement() {
                 <Button variant="danger" onClick={() => handleDeleteCouncil(rowData.id)}>
                     <i className="fa-solid fa-trash"></i>
                 </Button>
-                {rowData.status === 0 ? (
+                {rowData.active === 0 ? (
                     <Button variant="warning" onClick={() => handleUnBlockCouncil(rowData.id)}>
                         <i className="fa-solid fa-lock-open"></i>
                     </Button>
@@ -152,8 +174,8 @@ function CouncilManagement() {
                         globalFilterFields={[
                             'id',
                             'thesis_count',
-                            'status',
-                            'created_at',
+                            'active',
+                            'created_date',
                             'major.name',
                             'chairman.first_name',
                             'secretary.first_name',
@@ -166,10 +188,10 @@ function CouncilManagement() {
                         <Column header="Secretary" body={(rowData) => renderMember(rowData, 'secretary')}></Column>
                         <Column header="Assessor" body={(rowData) => renderMember(rowData, 'assessor')}></Column>
                         <Column header="Members" body={renderMembers}></Column>
-                        <Column header="Major" body={(rowData) => rowData.major.name}></Column>
-                        <Column header="Thesis count" field="thesis_count" sortable></Column>
-                        <Column header="Created at" body={(rowData) => rowData.created_at} sortable></Column>
-                        <Column body={statusBodyTemplate} header="Status"></Column>
+                        <Column header="Major" body={(rowData) => rowData.major?.name}></Column>
+                        <Column header="Thesis count" field="count" sortable></Column>
+                        <Column header="Created date" body={(rowData) => <Moment format='DD/MM/YYYY'>{rowData.created_date}</Moment>} sortable></Column>
+                        <Column body={activeBodyTemplate} header="Active"></Column>
                         <Column header="Action" body={actionBodyTemplate}></Column>
                     </DataTable>
                 </div>

@@ -9,7 +9,11 @@ const authAPI = {
     },
     signUp: (params) => {
         const url = '/users/';
-        return axiosClient.post(url, params);
+        return axiosClient.post(url, params,{
+            headers: {
+                'content-type': 'multipart/form-data',
+            },
+        });
     },
     currentUser: ()=>{
         const url = "/users/current_user/";

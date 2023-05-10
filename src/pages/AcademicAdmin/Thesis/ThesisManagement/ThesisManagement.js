@@ -5,14 +5,19 @@ import { InputText } from 'primereact/inputtext';
 import { Tag } from 'primereact/tag';
 import { useEffect, useState } from 'react';
 import { Button } from 'react-bootstrap';
+import Moment from 'react-moment';
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import thesisAPI from '~/api/thesisAPI/thesisAPI';
 import Helmet from '~/components/Helmet/Helmet';
 import config from '~/config';
 import { thesesData } from '~/fakedata/theses';
 
 function ThesisManagement() {
+    const majorID = useSelector(state => state.auth.user.major.id);
     const [theses, setTheses] = useState();
+    const [isDeleted, setIsDeleted] = useState(false);
     const [globalFilterValue, setGlobalFilterValue] = useState('');
     const [filters, setFilters] = useState({
         global: { value: null, matchMode: FilterMatchMode.CONTAINS },
@@ -22,15 +27,36 @@ function ThesisManagement() {
         mark: { value: null, matchMode: FilterMatchMode.EQUALS },
         created_date: { value: null, matchMode: FilterMatchMode.CONTAINS },
         'major.name': { value: null, matchMode: FilterMatchMode.CONTAINS },
-        'criteriaForm.name': { value: null, matchMode: FilterMatchMode.CONTAINS },
+        'criteria.name': { value: null, matchMode: FilterMatchMode.CONTAINS },
     });
     useEffect(() => {
         // Call API get theses
-        setTheses(thesesData);
-    }, []);
+             const fetchTheses = async () =>{
+            try{
+                const res = await thesisAPI.getThesesByMajorID(majorID);
+                setTheses(res.data);
+            }
+            catch{
+                toast.error('Không thể lấy danh sách hội đồng');
+            }
+        }
+        // setCouncils(councilData);
+        fetchTheses();
+        // setTheses(thesesData);
+    }, [isDeleted]);
     const handleDeleteThesis = (id) => {
         if (window.confirm('Do you want to delete this record?')) {
             // Call API delete
+            const deleteThesis = async () =>{
+                try{
+                    const res = await thesisAPI.deleteThesis(id);
+                    toast.success('Xóa khóa luận thành công');
+                    setIsDeleted(!isDeleted);
+                }catch{
+                    toast.error('Xóa hội đồng thất bại');
+                }
+            };
+            deleteThesis();
         }
     };
     const handleExportEvaluationThesis = (status) => {
@@ -39,7 +65,7 @@ function ThesisManagement() {
         }
     }
     const getSeverity = (council) => {
-        switch (council.status) {
+        switch (council?.status) {
             case 0:
                 return 'danger';
 
@@ -50,7 +76,7 @@ function ThesisManagement() {
         }
     };
     const statusBodyTemplate = (council) => {
-        return <Tag value={council.status === 0 ? 'Chưa chấm' : 'Đã chấm'} severity={getSeverity(council)}></Tag>;
+        return <Tag value={council?.status === 0 ? 'Chưa chấm' : 'Đã chấm'} severity={getSeverity(council)}></Tag>;
     };
 
     const renderMembers = (rowData, field) => {
@@ -60,11 +86,11 @@ function ThesisManagement() {
                     rowData[field].map((member, index) => (
                         <div key={index} className="text-center">
                             <img
-                                src={member.img}
-                                alt={member.last_name + ' ' + member.first_name}
+                                src={member?.avatar}
+                                alt={member?.last_name + ' ' + member?.first_name}
                                 style={{ width: 40, height: 40, borderRadius: '50%', marginRight: 8 }}
                             />
-                            <p>{member.last_name + ' ' + member.first_name}</p>
+                            <p>{member?.last_name + ' ' + member?.first_name}</p>
                         </div>
                     ))}
             </>
@@ -131,7 +157,7 @@ function ThesisManagement() {
                             'mark',
                             'created_date',
                             'major.name',
-                            'criteriaForm.name',
+                            'criteria.name',
                         ]}
                         emptyMessage="No theses found."
                     >
@@ -139,26 +165,26 @@ function ThesisManagement() {
                         <Column field="name" header="Name" sortable></Column>
                         <Column header="Students" body={(rowData) => renderMembers(rowData, 'students')}></Column>
                         <Column header="Teachers" body={(rowData) => renderMembers(rowData, 'teachers')}></Column>
-                        <Column field="major.name" header="Major" body={(rowData) => rowData.major.name}></Column>
+                        <Column field="major.name" header="Major" body={(rowData) => rowData?.major?.name}></Column>
                         <Column
-                            field="criteriaForm.name"
+                            field="criteria.name"
                             header="Criteria"
-                            body={(rowData) => rowData.criteriaForm.name}
+                            body={(rowData) => rowData?.criteria?.name}
                             sortable
                         ></Column>
                         <Column
                             field="council.id"
                             header="Council"
-                            body={(rowData) => `Hội đồng ${rowData.council.id}`}
+                            body={(rowData) => `Hội đồng ${rowData.council?.id}`}
                             sortable
                         ></Column>
                         <Column
                             field="mark"
                             header="Mark"
-                            body={(rowData) => (rowData.mark === null ? 'Chưa chấm' : rowData.mark)}
+                            body={(rowData) => (rowData?.mark === null ? 'Chưa chấm' : rowData.mark)}
                             sortable
                         ></Column>
-                        <Column header="Created date" body={(rowData) => rowData.created_date} sortable></Column>
+                        <Column header="Created date" body={(rowData) => <Moment format='DD/MM/YYYY'>{rowData?.created_date}</Moment>} sortable></Column>
                         <Column body={statusBodyTemplate} header="Status" field="status" sortable></Column>
                         <Column header="Action" body={actionBodyTemplate}></Column>
                     </DataTable>

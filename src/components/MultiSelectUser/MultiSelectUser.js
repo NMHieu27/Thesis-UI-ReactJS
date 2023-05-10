@@ -1,6 +1,7 @@
 import './MultiSelectUser.scss';
 import React, { useState, useEffect } from 'react';
 import { MultiSelect } from 'primereact/multiselect';
+import Image from '../Image/Image';
 
 export default function MultiSelectUser({ data, placeholder, selected, setSelected, maxSelected }) {
     const [hideFilter, setHideFilter] = useState(false);
@@ -8,7 +9,7 @@ export default function MultiSelectUser({ data, placeholder, selected, setSelect
     const userTemplate = (option) => {
         return (
             <div className="d-flex align-items-center">
-                <img alt={option.first_name} src={option.img} className="rounded" width={'40px'} height={'40px'} />
+                <Image alt={option.first_name} src={option.avatar} className="rounded" width={'40px'} height={'40px'} />
                 <div style={{ marginLeft: '15px' }}>{option.last_name + ' ' + option.first_name}</div>
             </div>
         );
@@ -70,9 +71,9 @@ export default function MultiSelectUser({ data, placeholder, selected, setSelect
                 <div className="p-multiselect-token">
                     <span className="p-multiselect-token-label">
                         <div className="d-flex align-items-center">
-                            <img
+                            <Image
                                 alt={option.first_name}
-                                src={option.img}
+                                src={option.avatar}
                                 className="rounded"
                                 width={'40px'}
                                 height={'40px'}

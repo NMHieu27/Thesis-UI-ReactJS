@@ -1,6 +1,14 @@
 import { Dropdown } from 'primereact/dropdown';
 import { useEffect, useState } from 'react';
 import { Form } from 'react-bootstrap';
+import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import councilAPI from '~/api/councilAPI/councilAPI';
+import criteriaAPI from '~/api/criteriaAPI/criteriaAPI';
+import studentAPI from '~/api/studentAPI/studentAPI';
+import teacherAPI from '~/api/teacherAPI/teacherAPI';
+import thesisAPI from '~/api/thesisAPI/thesisAPI';
 import ButtonSubmit from '~/components/Form/ButtonSubmit/ButtonSubmit';
 import InputItem from '~/components/Form/InputItem/InputItem';
 import Helmet from '~/components/Helmet/Helmet';
@@ -11,6 +19,8 @@ import { studentsData } from '~/fakedata/students';
 import teacherData from '~/fakedata/teacher';
 
 function AddThesis() {
+    const nav = useNavigate();
+    const major = useSelector((state) => state.auth.user.major);
     const [studentsFetch, setStudentsFetch] = useState(null);
     const [teachersFetch, setTeachersFetch] = useState(null);
     const [councilFetch, setCouncilFetch] = useState(null);
@@ -23,13 +33,49 @@ function AddThesis() {
     const [loading, setLoading] = useState(false);
     useEffect(() => {
         // Call api get students
-        setStudentsFetch(studentsData);
+        const fetchStudents = async () => {
+            try {
+                const res = await studentAPI.getStudentsByMajorID(major.id);
+                setStudentsFetch(res.data);
+            } catch {
+                toast.error('Không thể lấy danh sách sinh viên');
+            }
+        };
+        // setStudentsFetch(studentsData);
         // Call api get teachers
-        setTeachersFetch(teacherData);
+        const fetchTeachers = async () => {
+            try {
+                const res = await teacherAPI.getTeachersByMajorID(major.id);
+                setTeachersFetch(res.data);
+            } catch (error) {
+                toast.error('Không thể lấy danh sách giảng viên');
+            }
+        };
+        // setTeachersFetch(teacherData);
         // Call api get councils
-        setCouncilFetch(councilData);
+        const fetchCouncils = async () => {
+            try {
+                const res = await councilAPI.getCouncilsByMajorID(major.id);
+                setCouncilFetch(res.data.councils);
+            } catch {
+                toast.error('Không thể lấy danh sách hội đồng');
+            }
+        };
+        // setCouncilFetch(councilData);
         // Call api get Criteria Form
-        setCriteriaFormFetch(criteriaFormData);
+        const fetchCriteriaForm = async () => {
+            try {
+                const res = await criteriaAPI.getCriterias();
+                setCriteriaFormFetch(res.data);
+            } catch (error) {
+                toast.error('Không thể lấy danh sách tiêu chí');
+            }
+        };
+        // setCriteriaFormFetch(criteriaFormData);
+        fetchStudents();
+        fetchTeachers();
+        fetchCouncils();
+        fetchCriteriaForm();
     }, []);
 
     const addThesis = (evt) => {
@@ -38,15 +84,22 @@ function AddThesis() {
             name,
             students,
             teachers,
-            council: council?.id,
-            criteriaForm,
-            major:{
-                id: 1,
-                name:'CNTT'
-            }
-            // Lưu ý major lấy từ thông tin giáo vụ khoa
+            council: council.id,
+            criteria: criteriaForm.id,
+            major: major.id,
         };
-        console.log(param);
+        console.log(JSON.stringify(param));
+        const createThesis = async () =>{
+            try {
+                const res = await thesisAPI.createThesis(JSON.stringify(param));
+                toast.success('Thêm khóa luận thành công!');
+                nav(-1);
+            }
+            catch{
+                toast.error('Thêm khóa luận thất bại!');
+            }
+        }
+        createThesis();
     };
     return (
         <Helmet title="Thêm khóa luận">
