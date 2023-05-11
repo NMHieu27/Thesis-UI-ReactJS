@@ -1,6 +1,7 @@
 import { Card, Col } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import images from '~/assets/images';
+import Image from '../Image/Image';
 
 function ThesisCard({ data, type }) {
     let url = `/teacher/danh-sach-khoa-luan-cham-diem/khoa-luan/${data.id}`;
@@ -33,8 +34,8 @@ function ThesisCard({ data, type }) {
                             <span style={{ color: 'var(--main-bg-color)', fontWeight: 'bold' }}>Sinh viên:</span>
                             {data.students.map((member, index) => (
                                 <div key={index} className="d-flex align-items-center m-4">
-                                    <img
-                                        src={member.img}
+                                    <Image
+                                        src={member.avatar}
                                         alt={member.last_name + ' ' + member.first_name}
                                         style={{ width: 40, height: 40, borderRadius: '50%', marginRight: 8 }}
                                     />

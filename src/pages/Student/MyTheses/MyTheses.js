@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Button, ButtonGroup, Row } from 'react-bootstrap';
+import { toast } from 'react-toastify';
+import thesisAPI from '~/api/thesisAPI/thesisAPI';
 import Helmet from '~/components/Helmet/Helmet';
 import ThesisCard from '~/components/ThesisCard/ThesisCard';
 import { thesesData } from '~/fakedata/theses';
@@ -9,7 +11,16 @@ function MyTheses() {
     const [page, setPage] = useState(1);
     useEffect(() => {
         // Call API get theses by user id (teacher)
-        setTheses(thesesData);
+        const fetchTheses = async () =>{
+            try{
+                const res = await thesisAPI.getThesesByUser();
+                setTheses(res.data);
+            }catch{
+                toast.error("Lấy danh sách khóa luận thất bại!");
+            }
+        }
+        fetchTheses();
+        // setTheses(thesesData);
     }, []);
     const nextPage = () => setPage((current) => current + 1);
     const prevPage = () => setPage((current) => current - 1);

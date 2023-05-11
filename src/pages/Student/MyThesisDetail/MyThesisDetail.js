@@ -5,13 +5,24 @@ import { useParams } from 'react-router-dom';
 import Helmet from '~/components/Helmet/Helmet';
 import Info from '~/components/Info/Info';
 import { myThesisDetailData } from '~/fakedata/myThesisDetail';
+import thesisAPI from '~/api/thesisAPI/thesisAPI';
+import { toast } from 'react-toastify';
 
 function MyThesisDetail() {
     const { thesisID } = useParams();
     const [myThesisDetail, setMyThesisDetail] = useState();
     useEffect(() => {
         // Call api get thesis detail by thesis ID
-        setMyThesisDetail(myThesisDetailData[thesisID - 1]);
+        const fetchMyThesisDetail = async () => {
+            try {
+                const res = await thesisAPI.getThesisByID(thesisID);
+                setMyThesisDetail(res.data);
+            } catch {
+                toast.error('Lấy dữ liệu khóa luận thất bại!');
+            }
+        };
+        fetchMyThesisDetail();
+        // setMyThesisDetail(myThesisDetailData[thesisID - 1]);
     }, []);
     return (
         <Helmet title="Chi tiết khóa luận">
@@ -35,12 +46,12 @@ function MyThesisDetail() {
                                     <span className="my-thesis-label">Khoa: </span>
                                     <span>{myThesisDetail.major.name}</span>
                                 </p>
-                                <p>
+                                {/* <p>
                                     <span className="my-thesis-label">Trạng thái: </span>
                                     <span className={myThesisDetail.status === 0 ? 'text-danger' : 'text-success'}>
                                         {myThesisDetail.status === 0 ? 'Chưa chấm' : 'Đã chấm'}
                                     </span>
-                                </p>
+                                </p> */}
                                 <p>
                                     <span className="my-thesis-label">Điểm số: </span>
                                     <span className={myThesisDetail.mark === null ? 'text-danger' : 'text-success'}>
@@ -118,7 +129,11 @@ function MyThesisDetail() {
                                 {myThesisDetail.criteriaForm.criteria.map((c, index) => (
                                     <p className="m-2" key={index}>
                                         <span className="my-thesis-label">{`Tiêu chí ${index + 1}: `}</span>
-                                        <span>{`${c.name} (${(c.percent * 100).toFixed(0) + '%'})`}</span>
+                                        <p
+                                            className="criteria-detail-container"
+                                            dangerouslySetInnerHTML={{ __html: c.description }}
+                                        ></p>
+                                        <span>{` (${(c.percent * 100).toFixed(0) + '%'})`}</span>
                                     </p>
                                 ))}
                             </Col>

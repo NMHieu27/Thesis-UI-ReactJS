@@ -6,6 +6,10 @@ const councilAPI = {
         const url = `/majors/${id}/councils/`;
         return axiosAuth().get(url);
     },
+    getCouncilsActiveByMajorID: (id) => {
+        const url = `/majors/${id}/councils/active/`;
+        return axiosAuth().get(url);
+    },
     createCouncil: (param) => {
         const url = '/councils/';
         return axiosAuth().post(url, param);

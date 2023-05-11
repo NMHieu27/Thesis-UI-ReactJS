@@ -55,7 +55,7 @@ function AddThesis() {
         // Call api get councils
         const fetchCouncils = async () => {
             try {
-                const res = await councilAPI.getCouncilsByMajorID(major.id);
+                const res = await councilAPI.getCouncilsActiveByMajorID(major.id);
                 setCouncilFetch(res.data.councils);
             } catch {
                 toast.error('Không thể lấy danh sách hội đồng');

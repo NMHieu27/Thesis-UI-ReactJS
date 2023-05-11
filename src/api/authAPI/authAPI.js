@@ -9,7 +9,7 @@ const authAPI = {
     },
     signUp: (params) => {
         const url = '/users/';
-        return axiosClient.post(url, params,{
+        return axiosAuth().post(url, params,{
             headers: {
                 'content-type': 'multipart/form-data',
             },

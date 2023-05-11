@@ -44,6 +44,7 @@ function CouncilManagement() {
         // setCouncils(councilData);
         fetchCouncils();
     }, [isDelete]);
+    console.log(councils);
     const handleDeleteCouncil = async (id) => {
         if (window.confirm('Do you want to delete this council?')) {
             // Call API delete

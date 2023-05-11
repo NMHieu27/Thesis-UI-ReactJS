@@ -5,7 +5,7 @@ import teacherData from '~/fakedata/teacher';
 import ButtonSubmit from '~/components/Form/ButtonSubmit/ButtonSubmit';
 import MultiSelectUser from '~/components/MultiSelectUser/MultiSelectUser';
 import SelectMember from '../SelectMember';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import councilData from '~/fakedata/council';
 import { Dropdown } from 'primereact/dropdown';
 import councilAPI from '~/api/councilAPI/councilAPI';
@@ -14,6 +14,7 @@ import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 
 function EditCouncil() {
+    const nav = useNavigate();
     const { councilID } = useParams();
     const major = useSelector((state) => state.auth.user.major);
     const [teachers, setTeachers] = useState(null);
@@ -63,18 +64,23 @@ function EditCouncil() {
             secretary: selectedSecretary,
             assessor: selectedAssessor,
             members: selectedMembers,
-            active: active,
+            major: major,
         };
         console.log(param);
-        // setLoading(true);
+        
         const updateCouncil = async () => {
             try {
-                const res = await councilAPI.updateCouncil(param);
+                const res = await councilAPI.updateCouncil(councilID, JSON.stringify(param));
+                toast.success("Sửa hội đồng thành công!")
+                setLoading(false);
+                nav(-1);
                 console.log(res.data);
             } catch {
-                toast.error('Có lỗi xảy ra! Không thể tạo hội đồng');
+                toast.error('Có lỗi xảy ra! Không thể sửa hội đồng');
+                setLoading(false);
             }
         };
+        setLoading(true);
         updateCouncil();
     };
     return (
@@ -130,7 +136,7 @@ function EditCouncil() {
                                 />
                             )}
                         </div>
-                        <Form.Label>Trạng thái</Form.Label>
+                        {/* <Form.Label>Trạng thái</Form.Label>
                         <div className="card mb-3">
                             <Dropdown
                                 value={active}
@@ -141,7 +147,7 @@ function EditCouncil() {
                                 itemTemplate={(option) => (option === 0 ? 'Đóng' : 'Mở')}
                                 filter
                             />
-                        </div>
+                        </div> */}
                         <div className="btn-editCouncil-container text-center">
                             <ButtonSubmit content="Lưu" loading={loading} />
                         </div>

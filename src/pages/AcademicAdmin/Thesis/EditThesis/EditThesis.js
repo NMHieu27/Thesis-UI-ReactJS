@@ -33,7 +33,6 @@ function EditThesis() {
     const [students, setStudents] = useState(null);
     const [criteriaForm, setCriteriaForm] = useState();
     const [council, setCouncil] = useState(null);
-    const [status, setStatus] = useState(null);
     const [loading, setLoading] = useState(false);
     useEffect(() => {
         // Call api get Thesis by id
@@ -69,7 +68,7 @@ function EditThesis() {
         // Call api get councils
         const fetchCouncils = async () => {
             try {
-                const res = await councilAPI.getCouncilsByMajorID(major.id);
+                const res = await councilAPI.getCouncilsActiveByMajorID(major.id);
                 setCouncilFetch(res.data.councils);
             } catch {
                 toast.error('Không thể lấy danh sách hội đồng');
@@ -98,32 +97,43 @@ function EditThesis() {
         setTeachers(thesis?.teachers);
         setCouncil(thesis?.council);
         setCriteriaForm(thesis?.criteriaForm);
-        setStatus(thesis?.status);
     }, [thesis]);
-
-    console.log('council thesis:', thesis?.council);
-    console.log('council list:', councilFetch);
     const editThesis = (evt) => {
         evt.preventDefault();
         const param = {
             name,
             students,
             teachers,
-            council: council?.id,
-            criteriaForm,
-            major,
-            status,
-            // Lưu ý major lấy từ thông tin giáo vụ khoa
+            council: council.id,
+            criteria: criteriaForm.id,
+            major: major.id,
         };
         console.log(param);
+        const process = async () => {
+            try{
+                const res = await thesisAPI.updateThesis(thesisID,JSON.stringify(param));
+                console.log(res);
+                toast.success("Cập nhật khóa luận thành công!")
+                setLoading(false);
+                nav(-1);
+            }
+            catch{
+                toast.error("Cập nhật khóa luận thất bại!");
+                setLoading(false);
+            }
+        }
+        setLoading(true);
+        process();
+
     };
     return (
-        <Helmet title="Thêm khóa luận">
+        <Helmet title="Sửa khóa luận">
             <div className="editThesis-wrapper">
                 <h2 className="text-center m-4" style={{ color: '#0841c3' }}>
-                    Thêm khóa luận khoa
+                    Sửa khóa luận khoa
                 </h2>
                 <div className="editThesis-container">
+                    <p className='txt-main-color'>{`Khóa luận ID: ${thesis?.id}`}</p>
                     <Form onSubmit={editThesis}>
                         <InputItem
                             label="Tên khóa luận"
@@ -162,7 +172,7 @@ function EditThesis() {
                         {councilFetch && council && (
                             <div className="card mb-3">
                                 <Dropdown
-                                    value={council}
+                                    value={councilFetch.find((c)=> c.id === council.id)}
                                     onChange={(e) => setCouncil(e.target.value)}
                                     options={councilFetch}
                                     optionLabel="id"
@@ -178,7 +188,7 @@ function EditThesis() {
                         {criteriaFormFetch && criteriaForm && (
                             <div className="card mb-3">
                                 <Dropdown
-                                    value={criteriaForm}
+                                    value={criteriaFormFetch.find(c => c.id === criteriaForm.id)}
                                     onChange={(e) => setCriteriaForm(e.target.value)}
                                     options={criteriaFormFetch}
                                     optionLabel="name"
@@ -187,23 +197,9 @@ function EditThesis() {
                                 />
                             </div>
                         )}
-                        <Form.Label>Trạng thái</Form.Label>
-                        {status !== null  && (
-                            <div className="card mb-3">
-                                <Dropdown
-                                    value={status}
-                                    onChange={(e) => setStatus(e.value)}
-                                    options={[0, 1]}
-                                    placeholder="Chọn trạng thái"
-                                    valueTemplate={(option) => (option === 0 ? 'Chưa chấm' : 'Đã chấm')}
-                                    itemTemplate={(option) => (option === 0 ? 'Chưa chấm' : 'Đã chấm')}
-                                    filter
-                                />
-                            </div>
-                        )}
 
                         <div className="btn-signup-container text-center">
-                            <ButtonSubmit content="Thêm" loading={loading} />
+                            <ButtonSubmit content="Lưu" loading={loading} />
                         </div>
                     </Form>
                 </div>
