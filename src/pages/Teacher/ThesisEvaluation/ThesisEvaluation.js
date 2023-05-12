@@ -27,10 +27,10 @@ function ThesisEvaluation() {
     return (
         <Helmet title="Danh sách khóa luận">
             <div className="thesis-evaluation-wrapper">
-                <ButtonGroup aria-label="Basic example" className="mt-2">
+                {/* <ButtonGroup aria-label="Basic example" className="mt-2">
                     <Button onClick={prevPage}>&lt;&lt;</Button>
                     <Button onClick={nextPage}>&gt;&gt;</Button>
-                </ButtonGroup>
+                </ButtonGroup> */}
                 <Row>{theses && theses.map((c) => <ThesisCard type={'thesisTeacher'} key={c.id} data={c} />)}</Row>
             </div>
         </Helmet>

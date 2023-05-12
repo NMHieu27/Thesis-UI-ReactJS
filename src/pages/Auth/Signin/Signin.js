@@ -48,6 +48,7 @@ function Signin() {
                 };
                 let res = await authAPI.signIn(params);
                 localStorage.setItem('access-token', res.data.access_token);
+                localStorage.setItem('expires-in', res.data.expires_in);
                 console.log(localStorage.getItem('access-token'));
                 if (localStorage.getItem('access-token')) {
                     let user = await authAPI.currentUser();

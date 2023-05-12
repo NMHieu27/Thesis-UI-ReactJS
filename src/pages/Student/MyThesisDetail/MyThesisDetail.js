@@ -7,6 +7,7 @@ import Info from '~/components/Info/Info';
 import { myThesisDetailData } from '~/fakedata/myThesisDetail';
 import thesisAPI from '~/api/thesisAPI/thesisAPI';
 import { toast } from 'react-toastify';
+import Moment from 'react-moment';
 
 function MyThesisDetail() {
     const { thesisID } = useParams();
@@ -60,7 +61,7 @@ function MyThesisDetail() {
                                 </p>
                                 <p>
                                     <span className="my-thesis-label">Ngày đăng kí: </span>
-                                    <span>{myThesisDetail.created_date}</span>
+                                    <span><Moment format='DD/MM/YYYY'>{myThesisDetail.created_date}</Moment></span>
                                 </p>
                                 <p>
                                     <span className="my-thesis-label">Sinh viên: </span>

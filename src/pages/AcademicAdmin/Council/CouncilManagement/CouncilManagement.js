@@ -15,10 +15,12 @@ import config from '~/config';
 import councilData from '~/fakedata/council';
 
 function CouncilManagement() {
-    const majorID = useSelector(state => state.auth.user.major.id);
+    const majorID = useSelector((state) => state.auth.user.major.id);
     const [isDelete, setIsDelete] = useState(false);
+    const [year, setYear] = useState(new Date().getFullYear());
     const [councils, setCouncils] = useState(null);
     const [globalFilterValue, setGlobalFilterValue] = useState('');
+    const [isChangeActive, setIsChangeActive] = useState(false);
     const [filters, setFilters] = useState({
         global: { value: null, matchMode: FilterMatchMode.CONTAINS },
         id: { value: null, matchMode: FilterMatchMode.EQUALS },
@@ -32,40 +34,52 @@ function CouncilManagement() {
     });
     useEffect(() => {
         // Call API get councils
-        const fetchCouncils = async () =>{
-            try{
-                const res = await councilAPI.getCouncilsByMajorID(majorID);
+        const fetchCouncils = async () => {
+            try {
+                const res = await councilAPI.getCouncilsByMajorID(majorID,year);
                 setCouncils(res.data.councils);
+            } catch {
+                toast.error('Không thể lấy danh sách hội đồng');
             }
-            catch{
-                toast.error('Không thể lấy danh sách hội đồng')
-            }
-        }
+        };
         // setCouncils(councilData);
         fetchCouncils();
-    }, [isDelete]);
+    }, [isDelete, isChangeActive, year]);
     console.log(councils);
     const handleDeleteCouncil = async (id) => {
         if (window.confirm('Do you want to delete this council?')) {
             // Call API delete
-            try{
+            try {
                 const res = await councilAPI.deleteCouncil(id);
                 toast.success('Xóa hội đồng thành công');
                 setIsDelete(!isDelete);
-            }
-            catch{
+            } catch {
                 toast.error('Xóa hội đồng thất bại');
             }
         }
     };
-    const handleBlockCouncil = (id) => {
+    const handleBlockCouncil = async (id) => {
         if (window.confirm('Do you want to block this council?')) {
             // Call API block council
+            try {
+                const res = await councilAPI.closeCouncil(id);
+                toast.success(`Đã đóng hội đồng khoa ${id}`);
+                setIsChangeActive(!isChangeActive);
+            } catch {
+                toast.error(`Đóng hội ${id} thất bại!`);
+            }
         }
     };
-    const handleUnBlockCouncil = (id) => {
+    const handleUnBlockCouncil = async (id) => {
         if (window.confirm('Do you want to unblock this council?')) {
             // Call API unblock council
+            try {
+                const res = await councilAPI.openCouncil(id);
+                toast.success(`Đã mở hội đồng khoa ${id}`);
+                setIsChangeActive(!isChangeActive);
+            } catch {
+                toast.error(`Mở hội ${id} thất bại!`);
+            }
         }
     };
     // Render
@@ -123,13 +137,13 @@ function CouncilManagement() {
                 <Button variant="danger" onClick={() => handleDeleteCouncil(rowData.id)}>
                     <i className="fa-solid fa-trash"></i>
                 </Button>
-                {rowData.active === 0 ? (
+                {rowData.active === false ? (
                     <Button variant="warning" onClick={() => handleUnBlockCouncil(rowData.id)}>
-                        <i className="fa-solid fa-lock-open"></i>
+                        <i className="fa-solid fa-lock"></i>
                     </Button>
                 ) : (
                     <Button variant="warning" onClick={() => handleBlockCouncil(rowData.id)}>
-                        <i className="fa-solid fa-lock"></i>
+                        <i className="fa-solid fa-lock-open"></i>
                     </Button>
                 )}
             </div>
@@ -191,7 +205,11 @@ function CouncilManagement() {
                         <Column header="Members" body={renderMembers}></Column>
                         <Column header="Major" body={(rowData) => rowData.major?.name}></Column>
                         <Column header="Thesis count" field="count" sortable></Column>
-                        <Column header="Created date" body={(rowData) => <Moment format='DD/MM/YYYY'>{rowData.created_date}</Moment>} sortable></Column>
+                        <Column
+                            header="Created date"
+                            body={(rowData) => <Moment format="DD/MM/YYYY">{rowData.created_date}</Moment>}
+                            sortable
+                        ></Column>
                         <Column body={activeBodyTemplate} header="Active"></Column>
                         <Column header="Action" body={actionBodyTemplate}></Column>
                     </DataTable>

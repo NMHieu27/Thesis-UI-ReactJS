@@ -80,6 +80,7 @@ function EditEvaluation() {
                 <h2 className="text-center m-4" style={{ color: '#0841c3' }}>
                     Chấm điểm
                 </h2>
+                <p style={{fontWeight:'bold'}}>Tên khóa luận: <span className='txt-main-color'>{evaluationCriteria?.thesis_name}</span></p>
                 <div className="card p-fluid">
                     {evaluationCriteria && (
                         <DataTable

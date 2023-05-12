@@ -2,8 +2,8 @@ import axiosAuth from '../axiosAuth';
 import axiosClient from '../axiosClient';
 
 const thesisAPI = {
-    getThesesByMajorID: (id) => {
-        const url = `/majors/${id}/theses/`;
+    getThesesByMajorID: (id, year) => {
+        const url = `/majors/${id}/theses/?year=${year}`;
         return axiosAuth().get(url);
     },
     createThesis: (param) => {

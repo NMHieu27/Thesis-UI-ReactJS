@@ -31,6 +31,7 @@ function ThesisCard({ data, type }) {
                         </>
                     ) : (
                         <>
+                        <p style={{ color: 'var(--main-bg-color)', fontWeight: 'bold' }}>Trạng thái: <span className={data.mark_status === 0 ? 'text-danger' : data.mark_status === 1? 'text-secondary':'text-success'}>{data.mark_status === 0 ? 'Chưa chấm' : data.mark_status === 1? 'Đang chấm':'Đã chấm'}</span></p>
                             <span style={{ color: 'var(--main-bg-color)', fontWeight: 'bold' }}>Sinh viên:</span>
                             {data.students.map((member, index) => (
                                 <div key={index} className="d-flex align-items-center m-4">

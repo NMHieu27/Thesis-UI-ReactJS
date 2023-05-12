@@ -2,8 +2,8 @@ import axiosAuth from '../axiosAuth';
 import axiosClient from '../axiosClient';
 
 const councilAPI = {
-    getCouncilsByMajorID: (id) => {
-        const url = `/majors/${id}/councils/`;
+    getCouncilsByMajorID: (id, year) => {
+        const url = `/majors/${id}/councils/?year=${year}`;
         return axiosAuth().get(url);
     },
     getCouncilsActiveByMajorID: (id) => {
@@ -25,6 +25,14 @@ const councilAPI = {
     deleteCouncil: (id , param) => {
         const url = `/councils/${id}/`;
         return axiosAuth().delete(url, param);
+    },
+    closeCouncil: (id) => {
+        const url = `/councils/${id}/close/`;
+        return axiosAuth().get(url);
+    },
+    openCouncil: (id) => {
+        const url = `/councils/${id}/open/`;
+        return axiosAuth().get(url);
     }
 };
 export default councilAPI;

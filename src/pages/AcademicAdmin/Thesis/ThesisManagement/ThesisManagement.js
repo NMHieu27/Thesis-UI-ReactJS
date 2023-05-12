@@ -16,6 +16,7 @@ import { thesesData } from '~/fakedata/theses';
 
 function ThesisManagement() {
     const majorID = useSelector(state => state.auth.user.major.id);
+    const [year, setYear] = useState(new Date().getFullYear());
     const [theses, setTheses] = useState();
     const [isDeleted, setIsDeleted] = useState(false);
     const [globalFilterValue, setGlobalFilterValue] = useState('');
@@ -33,7 +34,7 @@ function ThesisManagement() {
         // Call API get theses
              const fetchTheses = async () =>{
             try{
-                const res = await thesisAPI.getThesesByMajorID(majorID);
+                const res = await thesisAPI.getThesesByMajorID(majorID, year);
                 setTheses(res.data);
             }
             catch{
@@ -43,7 +44,7 @@ function ThesisManagement() {
         // setCouncils(councilData);
         fetchTheses();
         // setTheses(thesesData);
-    }, [isDeleted]);
+    }, [isDeleted, year]);
     const handleDeleteThesis = (id) => {
         if (window.confirm('Do you want to delete this record?')) {
             // Call API delete
