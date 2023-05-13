@@ -4,20 +4,25 @@ import { DataTable } from 'primereact/datatable';
 import { InputText } from 'primereact/inputtext';
 import { Tag } from 'primereact/tag';
 import { useEffect, useState } from 'react';
-import { Button } from 'react-bootstrap';
+import { Button, Form } from 'react-bootstrap';
 import Moment from 'react-moment';
 import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import councilAPI from '~/api/councilAPI/councilAPI';
+import ButtonSubmit from '~/components/Form/ButtonSubmit/ButtonSubmit';
+import InputItem from '~/components/Form/InputItem/InputItem';
 import Helmet from '~/components/Helmet/Helmet';
 import config from '~/config';
 import councilData from '~/fakedata/council';
 
 function CouncilManagement() {
     const majorID = useSelector((state) => state.auth.user.major.id);
+    const nav = useNavigate();
+    const [loading, setLoading] = useState(false);
     const [isDelete, setIsDelete] = useState(false);
     const [year, setYear] = useState(new Date().getFullYear());
+    const [yearValue, setYearValue] = useState(new Date().getFullYear());
     const [councils, setCouncils] = useState(null);
     const [globalFilterValue, setGlobalFilterValue] = useState('');
     const [isChangeActive, setIsChangeActive] = useState(false);
@@ -36,10 +41,12 @@ function CouncilManagement() {
         // Call API get councils
         const fetchCouncils = async () => {
             try {
-                const res = await councilAPI.getCouncilsByMajorID(majorID,year);
+                const res = await councilAPI.getCouncilsByMajorID(majorID, year);
                 setCouncils(res.data.councils);
+                setLoading(false);
             } catch {
                 toast.error('Không thể lấy danh sách hội đồng');
+                setLoading(false);
             }
         };
         // setCouncils(councilData);
@@ -80,6 +87,15 @@ function CouncilManagement() {
             } catch {
                 toast.error(`Mở hội ${id} thất bại!`);
             }
+        }
+    };
+    const handleYearChange = (evt) => {
+        evt.preventDefault();
+        setLoading(true);
+        if (year === yearValue) {
+            setLoading(false);
+        } else {
+            setYear(yearValue);
         }
     };
     // Render
@@ -129,11 +145,15 @@ function CouncilManagement() {
     const actionBodyTemplate = (rowData) => {
         return (
             <div className="d-flex action-container">
-                <Link to={`/academic-admin/cap-nhat-hoi-dong/${rowData.id}`}>
-                    <Button variant="success">
-                        <i className="fa-solid fa-pen-to-square"></i>
-                    </Button>
-                </Link>
+                {/* <Link to={`/academic-admin/cap-nhat-hoi-dong/${rowData.id}`}> */}
+                <Button
+                    disabled={rowData.count !== 0}
+                    variant="success"
+                    onClick={() => nav(`/academic-admin/cap-nhat-hoi-dong/${rowData.id}`)}
+                >
+                    <i className="fa-solid fa-pen-to-square"></i>
+                </Button>
+                {/* </Link> */}
                 <Button variant="danger" onClick={() => handleDeleteCouncil(rowData.id)}>
                     <i className="fa-solid fa-trash"></i>
                 </Button>
@@ -177,6 +197,24 @@ function CouncilManagement() {
                 <h2 className="text-center m-4" style={{ color: '#0841c3' }}>
                     Quản lí hội đồng khoa
                 </h2>
+                <div className="search-container" style={{ display: 'grid' }}>
+                    <div className="p-4" style={{ placeSelf: 'center' }}>
+                        <Form onSubmit={handleYearChange} className="d-flex">
+                            <InputItem
+                                type="number"
+                                value={yearValue}
+                                setValue={(e) => setYearValue(e.target.value)}
+                                name="year"
+                                placeholder="Nhập năm"
+                                // label="Nhập năm cần thống kê"
+                                min={1980}
+                            />
+                            <div className="btn-stat-container text-center ms-2">
+                                <ButtonSubmit content="Tìm" loading={loading} />
+                            </div>
+                        </Form>
+                    </div>
+                </div>
                 <div className="card">
                     <DataTable
                         header={header}

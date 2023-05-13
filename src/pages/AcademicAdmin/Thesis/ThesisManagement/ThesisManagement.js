@@ -4,19 +4,23 @@ import { DataTable } from 'primereact/datatable';
 import { InputText } from 'primereact/inputtext';
 import { Tag } from 'primereact/tag';
 import { useEffect, useState } from 'react';
-import { Button } from 'react-bootstrap';
+import { Button, Form } from 'react-bootstrap';
 import Moment from 'react-moment';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import thesisAPI from '~/api/thesisAPI/thesisAPI';
+import ButtonSubmit from '~/components/Form/ButtonSubmit/ButtonSubmit';
+import InputItem from '~/components/Form/InputItem/InputItem';
 import Helmet from '~/components/Helmet/Helmet';
 import config from '~/config';
 import { thesesData } from '~/fakedata/theses';
 
 function ThesisManagement() {
-    const majorID = useSelector(state => state.auth.user.major.id);
+    const majorID = useSelector((state) => state.auth.user.major.id);
+    const [loading, setLoading] = useState(false);
     const [year, setYear] = useState(new Date().getFullYear());
+    const [yearValue, setYearValue] = useState(new Date().getFullYear());
     const [theses, setTheses] = useState();
     const [isDeleted, setIsDeleted] = useState(false);
     const [globalFilterValue, setGlobalFilterValue] = useState('');
@@ -32,15 +36,16 @@ function ThesisManagement() {
     });
     useEffect(() => {
         // Call API get theses
-             const fetchTheses = async () =>{
-            try{
+        const fetchTheses = async () => {
+            try {
                 const res = await thesisAPI.getThesesByMajorID(majorID, year);
                 setTheses(res.data);
-            }
-            catch{
+                setLoading(false);
+            } catch {
                 toast.error('Không thể lấy danh sách hội đồng');
+                setLoading(false);
             }
-        }
+        };
         // setCouncils(councilData);
         fetchTheses();
         // setTheses(thesesData);
@@ -48,23 +53,35 @@ function ThesisManagement() {
     const handleDeleteThesis = (id) => {
         if (window.confirm('Do you want to delete this record?')) {
             // Call API delete
-            const deleteThesis = async () =>{
-                try{
+            const deleteThesis = async () => {
+                try {
                     const res = await thesisAPI.deleteThesis(id);
                     toast.success('Xóa khóa luận thành công');
                     setIsDeleted(!isDeleted);
-                }catch{
+                } catch {
                     toast.error('Xóa hội đồng thất bại');
                 }
             };
             deleteThesis();
         }
     };
-    const handleExportEvaluationThesis = (status) => {
-        if(status === 0){
-            toast.error("Khóa luận chưa hoàn tất chấm điểm")
+    const handleYearChange = (evt) => {
+        evt.preventDefault();
+        setLoading(true);
+        if (year === yearValue) {
+            setLoading(false);
+        } else {
+            setYear(yearValue);
         }
-    }
+    };
+    const handleExportEvaluationThesis = (status) => {
+        if (status === 0) {
+            toast.error('Khóa luận chưa hoàn tất chấm điểm');
+        }
+        else {
+            
+        }
+    };
     const getSeverity = (council) => {
         switch (council?.status) {
             case 0:
@@ -142,6 +159,24 @@ function ThesisManagement() {
                 <h2 className="text-center m-4" style={{ color: '#0841c3' }}>
                     Quản lí khóa luận khoa
                 </h2>
+                <div className="search-container" style={{ display: 'grid' }}>
+                    <div className="p-4" style={{ placeSelf: 'center' }}>
+                        <Form onSubmit={handleYearChange} className="d-flex">
+                            <InputItem
+                                type="number"
+                                value={yearValue}
+                                setValue={(e) => setYearValue(e.target.value)}
+                                name="year"
+                                placeholder="Nhập năm"
+                                // label="Nhập năm cần thống kê"
+                                min={1980}
+                            />
+                            <div className="btn-stat-container text-center ms-2">
+                                <ButtonSubmit content="Tìm" loading={loading} />
+                            </div>
+                        </Form>
+                    </div>
+                </div>
                 <div className="card">
                     <DataTable
                         header={header}
@@ -185,7 +220,11 @@ function ThesisManagement() {
                             body={(rowData) => (rowData?.mark === null ? 'Chưa chấm' : rowData.mark)}
                             sortable
                         ></Column>
-                        <Column header="Created date" body={(rowData) => <Moment format='DD/MM/YYYY'>{rowData?.created_date}</Moment>} sortable></Column>
+                        <Column
+                            header="Created date"
+                            body={(rowData) => <Moment format="DD/MM/YYYY">{rowData?.created_date}</Moment>}
+                            sortable
+                        ></Column>
                         <Column body={statusBodyTemplate} header="Status" field="status" sortable></Column>
                         <Column header="Action" body={actionBodyTemplate}></Column>
                     </DataTable>

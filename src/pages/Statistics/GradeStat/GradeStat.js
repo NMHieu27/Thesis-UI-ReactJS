@@ -58,21 +58,21 @@ function GradeStat() {
         <Helmet title="Thống kê điểm số khóa luận">
             <div className="grade-stat-wrapper">
                 <h2 className="text-center m-4" style={{ color: '#0841c3' }}>
-                    THỐNG KÊ ĐIỂM SỐ KHÓA LUẬN
+                    Thống kê điểm số khóa luận
                 </h2>
                 <div className="grade-stat-container">
                     <div className="search-container" style={{ display: 'grid' }}>
-                        <div className="card p-4" style={{ placeSelf: 'center' }}>
-                            <Form onSubmit={handleYearChange}>
+                        <div className="p-4" style={{ placeSelf: 'center' }}>
+                            <Form onSubmit={handleYearChange} className='d-flex'>
                                 <InputItem
                                     type="number"
                                     value={year}
                                     setValue={(e) => setYear(e.target.value)}
                                     name="year"
-                                    label="Nhập năm cần thống kê"
+                                    placeholder="Nhập năm"
                                     min={1980}
                                 />
-                                <div className="btn-stat-container text-center">
+                                <div className="btn-stat-container text-center ms-2">
                                     <ButtonSubmit content="Thống kê" loading={loading} />
                                 </div>
                             </Form>
