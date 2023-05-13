@@ -18,6 +18,10 @@ const authAPI = {
     currentUser: ()=>{
         const url = "/users/current_user/";
         return axiosAuth().get(url);
+    },
+    changePassword: ( param )=>{
+        const url = "/users/current_user/change_password/";
+        return axiosAuth().post(url,param);
     }
 };
 export default authAPI;

@@ -22,8 +22,8 @@ const thesisAPI = {
         const url = `/theses/${id}/`;
         return axiosAuth().delete(url, param);
     },
-    getThesesByUser:()=>{
-        const url = '/users/theses/';
+    getThesesByUser:(q=null, page=1)=>{
+        const url = `/users/theses/?q=${q}&page=${page}`;
         return axiosAuth().get(url);
     },
     thesisMarked: (id) => {
@@ -33,6 +33,10 @@ const thesisAPI = {
     updateMark: (id, param) => {
         const url = `/theses/${id}/mark_update/`;
         return axiosAuth().post(url, param);
+    },
+    exportMark: (id) => {
+        const url = `/theses/${id}/mark/export/`;
+        return axiosAuth().get(url);
     }
 };
 export default thesisAPI;

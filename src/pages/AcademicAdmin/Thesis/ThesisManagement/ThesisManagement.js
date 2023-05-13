@@ -3,8 +3,8 @@ import { Column } from 'primereact/column';
 import { DataTable } from 'primereact/datatable';
 import { InputText } from 'primereact/inputtext';
 import { Tag } from 'primereact/tag';
-import { useEffect, useState } from 'react';
-import { Button, Form } from 'react-bootstrap';
+import { useEffect, useRef, useState } from 'react';
+import { Button, Form, Table } from 'react-bootstrap';
 import Moment from 'react-moment';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
@@ -14,16 +14,22 @@ import ButtonSubmit from '~/components/Form/ButtonSubmit/ButtonSubmit';
 import InputItem from '~/components/Form/InputItem/InputItem';
 import Helmet from '~/components/Helmet/Helmet';
 import config from '~/config';
+import { saveAs } from 'file-saver';
 import { thesesData } from '~/fakedata/theses';
+import MarkExport from '~/components/MarkExport/MarkExport';
 
 function ThesisManagement() {
     const majorID = useSelector((state) => state.auth.user.major.id);
     const [loading, setLoading] = useState(false);
     const [year, setYear] = useState(new Date().getFullYear());
     const [yearValue, setYearValue] = useState(new Date().getFullYear());
+    const [exportThesisData, setExportThesisData] = useState();
+    const [exportMarkData, setExportMarkData] = useState();
+    const [exportID, setExportID] = useState(0);
     const [theses, setTheses] = useState();
     const [isDeleted, setIsDeleted] = useState(false);
     const [globalFilterValue, setGlobalFilterValue] = useState('');
+    const pdfRef = useRef();
     const [filters, setFilters] = useState({
         global: { value: null, matchMode: FilterMatchMode.CONTAINS },
         name: { value: null, matchMode: FilterMatchMode.CONTAINS },
@@ -74,12 +80,21 @@ function ThesisManagement() {
             setYear(yearValue);
         }
     };
-    const handleExportEvaluationThesis = (status) => {
-        if (status === 0) {
+    const handleExportEvaluationThesis = (rowData) => {
+        if (rowData.status === 0) {
             toast.error('Khóa luận chưa hoàn tất chấm điểm');
-        }
-        else {
-            
+        } else {
+            const exportMarkThesis = async () => {
+                try {
+                    const res = await thesisAPI.exportMark(rowData.id);
+                    setExportMarkData(res.data);
+                } catch {
+                    toast.error('Có lỗi xảy ra, không thể xuất file PDF');
+                }
+            };
+            setExportID(rowData.id);
+            setExportThesisData(rowData);
+            exportMarkThesis();
         }
     };
     const getSeverity = (council) => {
@@ -117,15 +132,13 @@ function ThesisManagement() {
     const actionBodyTemplate = (rowData) => {
         return (
             <div className="d-flex action-container">
-                <Link to={`/academic-admin/cap-nhat-khoa-luan/${rowData.id}`}>
-                    <Button variant="success">
-                        <i className="fa-solid fa-pen-to-square"></i>
-                    </Button>
+                <Link className="btn btn-success pt-2" to={`/academic-admin/cap-nhat-khoa-luan/${rowData.id}`}>
+                    <i className="fa-solid fa-pen-to-square"></i>
                 </Link>
                 <Button variant="danger" onClick={() => handleDeleteThesis(rowData.id)}>
                     <i className="fa-solid fa-trash"></i>
                 </Button>
-                <Button variant="secondary" onClick={() => handleExportEvaluationThesis(rowData.status)}>
+                <Button variant="secondary" onClick={() => handleExportEvaluationThesis(rowData)}>
                     <i className="fa-solid fa-file-pdf"></i>
                 </Button>
             </div>
@@ -153,6 +166,8 @@ function ThesisManagement() {
             </span>
         </div>
     );
+    const [pdfData, setPdfData] = useState(null);
+
     return (
         <Helmet title="Danh sách khóa luận">
             <div className="theses-wrapper">
@@ -229,6 +244,9 @@ function ThesisManagement() {
                         <Column header="Action" body={actionBodyTemplate}></Column>
                     </DataTable>
                 </div>
+                {exportThesisData && exportMarkData && (
+                    <MarkExport thesisData={exportThesisData} markData={exportMarkData} idWrapper={exportID} />
+                )}
             </div>
         </Helmet>
     );

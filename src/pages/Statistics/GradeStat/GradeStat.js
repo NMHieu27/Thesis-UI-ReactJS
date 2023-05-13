@@ -7,6 +7,8 @@ import InputItem from '~/components/Form/InputItem/InputItem';
 import Helmet from '~/components/Helmet/Helmet';
 import { gradeStateData } from '~/fakedata/gradeState';
 import BarChart from '~/components/Chart/BarChart';
+import statsAPI from '~/api/statsAPI/statsAPI';
+import { toast } from 'react-toastify';
 function GradeStat() {
     const [gradeData, setGradeData] = useState();
     const [statData, setStatData] = useState();
@@ -27,7 +29,14 @@ function GradeStat() {
 
     const handleStat = async () => {
         // const res = await ...; Call API get data for chart and table
-        setGradeData(gradeStateData);
+        try {
+            const res = await statsAPI.getGradeStat(year);
+            setGradeData(res.data);
+            setLoading(false);
+        } catch {
+            toast.error('Không thể lấy dữ liệu thống kê!');
+            setLoading(false);
+        }
     };
     useEffect(() => {
         handleStat();
@@ -35,11 +44,11 @@ function GradeStat() {
 
     useEffect(() => {
         setStatData({
-            labels: gradeData?.map((data) => `Grade ${data.mark}`),
+            labels: gradeData?.map((data) => `Grade ${data?.mark}`),
             datasets: [
                 {
                     label: 'Số lượng',
-                    data: gradeData?.map((data) => data.count),
+                    data: gradeData?.map((data) => data?.count),
                     backgroundColor: colors,
                     borderColor: borderColors,
                     borderWidth: 1,
@@ -50,9 +59,13 @@ function GradeStat() {
 
     const handleYearChange = (e) => {
         e.preventDefault();
-        // Call handleStat to update
-        handleStat();
         setLoading(true);
+        if (year) {
+            handleStat();
+        } else {
+            toast.error('Vui lòng nhập năm thống kê');
+            setLoading(false);
+        }
     };
     return (
         <Helmet title="Thống kê điểm số khóa luận">
@@ -63,7 +76,7 @@ function GradeStat() {
                 <div className="grade-stat-container">
                     <div className="search-container" style={{ display: 'grid' }}>
                         <div className="p-4" style={{ placeSelf: 'center' }}>
-                            <Form onSubmit={handleYearChange} className='d-flex'>
+                            <Form onSubmit={handleYearChange} className="d-flex">
                                 <InputItem
                                     type="number"
                                     value={year}
@@ -84,7 +97,7 @@ function GradeStat() {
                                 {gradeData && (
                                     <>
                                         <h4 className="text-center m-4" style={{ color: '#0841c3' }}>
-                                        Bảng thống kê
+                                            Bảng thống kê
                                         </h4>
                                         <div className="card">
                                             <DataTable value={gradeData}>

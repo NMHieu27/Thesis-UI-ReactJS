@@ -22,6 +22,7 @@ import 'moment/locale/vi';
 import config from './config';
 import PageUnauthorized from './pages/PageUnauthorized/PageUnauthorized';
 import RequireAuth from './components/RequireAuth/RequireAuth';
+import MarkExport from './components/MarkExport/MarkExport';
 moment().local('vi');
 function App() {
     return (
@@ -95,6 +96,8 @@ function App() {
                         <Route path="*" element={<Page404 />} />
                         {/* Page unauthorized routes */}
                         <Route path={config.routes.unauthorized} element={<PageUnauthorized />} />
+                        {/* test export */}
+                        <Route path="/export" element={<MarkExport />} />
                     </Routes>
                 </div>
             </Router>

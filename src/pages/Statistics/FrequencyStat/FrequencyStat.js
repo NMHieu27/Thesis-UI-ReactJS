@@ -7,6 +7,8 @@ import InputItem from '~/components/Form/InputItem/InputItem';
 import Helmet from '~/components/Helmet/Helmet';
 import { frequencyStateData } from '~/fakedata/frequency';
 import PieChart from '~/components/Chart/PieChart';
+import statsAPI from '~/api/statsAPI/statsAPI';
+import { toast } from 'react-toastify';
 function FrequencyStat() {
     const [frequencyData, setFrequencyData] = useState();
     const [statData, setStatData] = useState();
@@ -27,7 +29,14 @@ function FrequencyStat() {
 
     const handleStat = async () => {
         // const res = await ...; Call API get data for chart and table
-        setFrequencyData(frequencyStateData);
+        try {
+            const res = await statsAPI.getFrequencyStat(year);
+            setFrequencyData(res.data);
+            setLoading(false);
+        } catch {
+            toast.error('Không thể lấy dữ liệu thống kê!');
+            setLoading(false);
+        }
     };
     useEffect(() => {
         handleStat();
@@ -35,11 +44,11 @@ function FrequencyStat() {
 
     useEffect(() => {
         setStatData({
-            labels: frequencyData?.map((data) => `Ngành ${data.major}`),
+            labels: frequencyData?.map((data) => `Ngành ${data?.major__name}`),
             datasets: [
                 {
                     label: 'Tham gia',
-                    data: frequencyData?.map((data) => data.count),
+                    data: frequencyData?.map((data) => data?.count),
                     backgroundColor: colors,
                     borderColor: borderColors,
                     borderWidth: 1,
@@ -50,9 +59,13 @@ function FrequencyStat() {
 
     const handleYearChange = (e) => {
         e.preventDefault();
-        // Call handleStat to update
-        handleStat();
         setLoading(true);
+        if (year) {
+            handleStat();
+        } else {
+            toast.error('Vui lòng nhập năm thống kê');
+            setLoading(false);
+        }
     };
     return (
         <Helmet title="Thống kê điểm số khóa luận">
@@ -88,7 +101,7 @@ function FrequencyStat() {
                                         </h4>
                                         <div className="card">
                                             <DataTable value={frequencyData}>
-                                                <Column field="major" header="Major"></Column>
+                                                <Column field="major__name" header="Major"></Column>
                                                 <Column field="count" header="Count"></Column>
                                             </DataTable>
                                         </div>
